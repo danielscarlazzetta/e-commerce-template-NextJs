@@ -1,12 +1,14 @@
 import { TopMenu } from "@/components";
 
-export default function ShopLayout({children,}: Readonly<{
+export default function ShopLayout({ children, }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <main className="min-h-screen">
-      <TopMenu></TopMenu>
-      {children}
+      <TopMenu />
+      <div className="px-0 sm:px-10">
+        {children}
+      </div>
     </main>
   );
 }
