@@ -44,3 +44,12 @@ Desarrollo
 
  npm i react-icons --save
  
+
+ Agregado de Zustand
+
+ npm install zustand
+
+
+ Agregar clsx, este permite agregar clases condicionales de tailwind
+
+ npm i clsx
