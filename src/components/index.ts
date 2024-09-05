@@ -7,3 +7,4 @@ export * from './products/product-grid/ProductGrid'
 export * from './products/product-grid/ProductGridItem'
 
 export * from './product/side-selector/SideSelector'
+export * from './product/quantity-selector/QuantitySelector'
