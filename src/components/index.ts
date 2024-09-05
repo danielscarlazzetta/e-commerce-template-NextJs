@@ -8,3 +8,5 @@ export * from './products/product-grid/ProductGridItem'
 
 export * from './product/side-selector/SideSelector'
 export * from './product/quantity-selector/QuantitySelector'
+
+export * from './product/slideshow/ProductSlideShow'

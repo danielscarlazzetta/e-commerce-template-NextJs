@@ -42,14 +42,25 @@ Desarrollo
  se estan utilizando iconos de ionic
  se instala de esta forma
 
+ ```bash
  npm i react-icons --save
+```
  
-
  Agregado de Zustand
 
+ ```bash
  npm install zustand
+```
 
 
  Agregar clsx, este permite agregar clases condicionales de tailwind
 
+ ```bash
  npm i clsx
+```
+
+ Agregar swiper libreria de slide para img
+
+```bash
+ npm install swiper
+```
