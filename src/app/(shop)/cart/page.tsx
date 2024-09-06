@@ -2,6 +2,7 @@ import { QuantitySelector, Title } from "@/components";
 import { initialData } from "@/seed/seed";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { IoRemoveCircleOutline, IoTrashOutline } from "react-icons/io5";
 
 
@@ -12,6 +13,12 @@ const productInCart = [
 ]
 
 export default function () {
+
+
+    //si el carrito esta vacio usar el redirect
+    //redirect('/empty/');
+
+
     return (
         <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
 
