@@ -58,7 +58,7 @@ export default function ({ params }: Props) {
                 {/* Selector de Button */}
                 {/* <button className="btn-primary my-5">Agregar carrito</button> */}
                 <button
-                    className="group relative inline-flex items-center overflow-hidden rounded bg-indigo-600 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500"
+                    className="group relative inline-flex items-center overflow-hidden rounded bg-pink-400 px-8 py-3 text-white focus:outline-none active:bg-pink-600"
 
                 >
                     <span className="absolute -end-full transition-all group-hover:end-4">
