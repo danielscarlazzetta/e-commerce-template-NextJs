@@ -1,7 +1,5 @@
-import { ProductGrid, Title } from "@/components";
-import { title_font } from "@/config/fonts";
+import { ProductGrid, SlideMobilPage, SlidePage, Title } from "@/components";
 import { initialData } from "@/seed/seed";
-import Image from "next/image";
 
 
 const products = initialData.products;
@@ -13,6 +11,10 @@ export default function Home() {
     title="Tienda"
     subtitle="Todos los productos"
     className="mb-2" />
+
+    <SlideMobilPage className="block md:hidden" />
+
+    <SlidePage className="hidden md:block"/>
 
     <ProductGrid
     products={ products } />
