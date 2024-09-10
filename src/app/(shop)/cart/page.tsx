@@ -8,8 +8,8 @@ import { IoRemoveCircleOutline, IoTrashOutline } from "react-icons/io5";
 
 const productInCart = [
     initialData.products[0],
-    // initialData.products[1],
-    // initialData.products[2],
+    initialData.products[1],
+    initialData.products[2],
 ]
 
 export default function () {
@@ -73,7 +73,7 @@ export default function () {
 
                     {/* Checkout - resumen orden */}
 
-                    <div className="bg-white rounded-xl shadow-xl p-7">
+                    <div className="bg-white rounded-xl shadow-xl p-7 h-[280px]">
                         <h2 className="text-2xl mb-2">Resumen compra</h2>
 
                         <div className="grid grid-cols-2">
@@ -90,7 +90,7 @@ export default function () {
                             <span className="mt-5 text-2xl text-right"> $ 119</span>
                         </div>
 
-                        <div className="mt-4 w-full">
+                        <div className="mt-10 w-full">
                             <Link 
                             className="flex justify-center rounded bg-pink-400 hover:bg-pink-500  transition-all text-white text-lg"
                             href='/checkout/address'>
