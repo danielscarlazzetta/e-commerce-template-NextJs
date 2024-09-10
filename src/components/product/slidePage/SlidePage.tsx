@@ -9,6 +9,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
+import './slideshow.css';
+
 
 
 // import required modules
@@ -28,17 +30,18 @@ export const SlidePage = ({ className }: Props) => {
   return (
     <div className={className}>
 
-      <div className='w-full pb-3  items-center'>
+      <div className='w-full pb-3 '>
         <Swiper
           style={{
             '--swiper-navigation-color': '#FF69B4',
             '--swiper-pagination-color': '#C71585',
             'height': '50vh',
-            'width': '100%'
+            'width': '100%',
+
           } as React.CSSProperties
           }
           spaceBetween={0}
-          centeredSlides={true}
+          // centeredSlides={true}
           autoplay={{
             delay: 2500,
           }}
@@ -48,17 +51,19 @@ export const SlidePage = ({ className }: Props) => {
           autoHeight={true}
           navigation={true}
           modules={[Autoplay, Pagination, Navigation]}
-          className="mySwiper2"
         >
           {
             carrusel.map(i => (
-              <SwiperSlide key={i}>
+              <SwiperSlide key={i}
+                // zoom={true}
+              >
                 <Image
+                  //style={}
                   width={1080}
                   height={800}
                   src={`/img_carrusel/${i}`}
                   alt='img'
-                  className="object-contain h-3" />
+                  className="" />
               </SwiperSlide>
             ))
           }
