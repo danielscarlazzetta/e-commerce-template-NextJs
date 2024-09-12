@@ -12,6 +12,11 @@
 8. luego de crear o modificar el schema.prisma vamos a ejecutar el comando para actualizarlo en la base de datos ``` npx prisma migrate dev --name ProductCategoery```
 9.  correr proyecto ``` npm run dev ```
 
+9.5 Para efectos de desarrollo ejecutaremos el siguente comando que nos permitira ejecutar codigo de typescript en node ```npm i -D ts-node ```
+9.5.1 Para ejecutar la semilla(Seed-databse) iremos a la carpeta de esta desde la terminal => cd src/seed/
+    luego usaremos el comando ```npx tsc --init``` asi crearemos un tsconfig poara correr la semilla
+    para correr la semilla usaremos el comando ``` npm run seed ```, este comando lo creamos en package.json ( "seed": " ts-node src/seed/seed-database.ts" )
+9.5.2 Generar el cliente de Primsa ```npx prisma generate```
 
 ## Correr proyecto en pro
 
