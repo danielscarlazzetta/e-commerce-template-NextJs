@@ -11,7 +11,27 @@ async function main() {
         prisma.category.deleteMany(),
     ])
 
+
+    const { categories, products } = initialData;
+
+
+    //2. Insertar categorias
+
+    // Primera forma de hacerlo
+    // Esta forma funciona pero si quisieramos agregarlas de una en una
+    // await prisma.category.create({
+    //     data: {
+    //         name: 'Shirts',
+    //     }
+    // })
     // console.log(initialData)
+
+    const categoriesData = categories.map( name => ({ name}))
+    await prisma.category.createMany({
+        data: categoriesData,
+    })
+
+    console.log(categoriesData)
     console.log('Seed ejecutado')
 }
 
