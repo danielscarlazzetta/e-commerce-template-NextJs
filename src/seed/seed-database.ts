@@ -1,3 +1,4 @@
+import { create } from 'zustand';
 import prisma from '../lib/prisma'
 import { initialData } from "./seed";
 
@@ -5,11 +6,16 @@ import { initialData } from "./seed";
 async function main() {
 
     // 1. borrar data
-    await Promise.all([
-        prisma.productImage.deleteMany(),
-        prisma.product.deleteMany(),
-        prisma.category.deleteMany(),
-    ])
+    // await Promise.all([
+    //     prisma.productImage.deleteMany(),
+    //     prisma.product.deleteMany(),
+    //     prisma.category.deleteMany(),
+    // ])
+
+    await prisma.productImage.deleteMany();
+    await prisma.product.deleteMany();
+    await prisma.category.deleteMany();
+
 
 
     const { categories, products } = initialData;
@@ -24,16 +30,16 @@ async function main() {
     //         name: 'Shirts',
     //     }
     // })
-    // console.log(initialData)
 
-    const categoriesData = categories.map( name => ({ name}))
+    const categoriesData = categories.map( name => ({ name}));
+
     await prisma.category.createMany({
         data: categoriesData,
-    })
+    });
 
     //3. Preguntar a la base de datos los ids de las categorias
     const categoriesDB = await prisma.category.findMany();
-    console.log(categoriesDB)
+
     
     const categoriesMap = categoriesDB.reduce( (map, category) => {
         
@@ -41,24 +47,37 @@ async function main() {
         return map;
         
     }, {} as Record<string, string>);//<string = category, string = id>
-    console.log(categoriesMap)
+
 
     //Ingresar productos 
 
-    products.forEach( async (pro) => {
-        const { type, images, ...rest } = pro;
-        const dbProduct = await prisma.product.create({
-            data: {
-                ...rest,
-                categoryId: categoriesMap[type]
-            }
-        });
+    
+  products.forEach( async(product) => {
 
-        //img
+    const { type, images, ...rest } = product;
+
+    const dbProduct = await prisma.product.create({
+      data: {
+        ...rest,
+        categoryId: categoriesMap[type]
+      }
     })
 
 
-    console.log(categoriesData)
+    // Images
+    const imagesData = images.map( images => ({
+      url: images,
+      productId: dbProduct.id
+    }));
+
+    await prisma.productImage.createMany({
+      data: imagesData
+    });
+
+
+  });
+
+
     console.log('Seed ejecutado')
 }
 
