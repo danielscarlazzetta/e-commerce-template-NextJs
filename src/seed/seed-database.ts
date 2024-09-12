@@ -43,6 +43,21 @@ async function main() {
     }, {} as Record<string, string>);//<string = category, string = id>
     console.log(categoriesMap)
 
+    //Ingresar productos 
+
+    products.forEach( async (pro) => {
+        const { type, images, ...rest } = pro;
+        const dbProduct = await prisma.product.create({
+            data: {
+                ...rest,
+                categoryId: categoriesMap[type]
+            }
+        });
+
+        //img
+    })
+
+
     console.log(categoriesData)
     console.log('Seed ejecutado')
 }
