@@ -31,6 +31,18 @@ async function main() {
         data: categoriesData,
     })
 
+    //3. Preguntar a la base de datos los ids de las categorias
+    const categoriesDB = await prisma.category.findMany();
+    console.log(categoriesDB)
+    
+    const categoriesMap = categoriesDB.reduce( (map, category) => {
+        
+        map[ category.name.toLowerCase() ] = category.id;
+        return map;
+        
+    }, {} as Record<string, string>);//<string = category, string = id>
+    console.log(categoriesMap)
+
     console.log(categoriesData)
     console.log('Seed ejecutado')
 }
