@@ -1,10 +1,14 @@
+import { getPaginationProductsWithImages } from "@/actions";
 import { ProductGrid, SlideMobilPage, SlidePage, Title } from "@/components";
 import { initialData } from "@/seed/seed";
 
 
 const products = initialData.products;
 
-export default function Home() {
+export default async function Home() {
+
+  const productsTemp = await getPaginationProductsWithImages();
+
   return (
     <>
     <Title
