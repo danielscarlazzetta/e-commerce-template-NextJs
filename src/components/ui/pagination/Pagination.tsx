@@ -1,7 +1,7 @@
 'use client'
 
 import Link from "next/link";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 
 interface Props {
@@ -28,7 +28,7 @@ export const Pagination = ({ totalPages }: Props) => {
             return `${ pathname }?${ params.toString() }`
         }
 
-        if( +pageNumber === 0){
+        if( +pageNumber <= 0){
             return `${ pathname }`;//returna al pathname ya sea href= '/men, /kid, etc' 
         }
 
