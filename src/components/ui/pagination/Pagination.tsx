@@ -1,7 +1,9 @@
 'use client'
 
+import { generatePaginationNumbers } from "@/utils";
+import clsx from "clsx";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 
 interface Props {
@@ -14,30 +16,39 @@ export const Pagination = ({ totalPages }: Props) => {
 
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const currentPage = Number(searchParams.get('page')) ?? 1;
 
-    console.log({ pathname, searchParams, currentPage });
+
+    const pageString = searchParams.get('page') ?? 1;
+    const currentPage = isNaN( +pageString) ? 1 : +pageString;
+
+    if(currentPage < 1 || isNaN(+pageString)){
+        redirect(pathname);
+    }
+
+    // const currentPage = Number( searchParams.get('page') ? searchParams.get('page') : 1 ) ?? 1;
+
+    const allPages = generatePaginationNumbers(currentPage, totalPages);
 
 
 
     const createPageUrl = (pageNumber: number | string) => {
 
         const params = new URLSearchParams(searchParams);
-        
-        if( pageNumber === '...'){
-            return `${ pathname }?${ params.toString() }`
+
+        if (pageNumber === '...') {
+            return `${pathname}?${params.toString()}`
         }
 
-        if( +pageNumber <= 0){
-            return `${ pathname }`;//returna al pathname ya sea href= '/men, /kid, etc' 
+        if (+pageNumber <= 0) {
+            return `${pathname}`;//returna al pathname ya sea href= '/men, /kid, etc' 
         }
 
-        if(+pageNumber > totalPages){
-            return `${ pathname }?${ params.toString() }`;
+        if (+pageNumber > totalPages) {
+            return `${pathname}?${params.toString()}`;
         }
 
         params.set('page', pageNumber.toString());
-        return `${ pathname }?${ params.toString() }`
+        return `${pathname}?${params.toString()}`
 
     }
 
@@ -46,19 +57,29 @@ export const Pagination = ({ totalPages }: Props) => {
 
     return (
         <div className="flex justify-center space-x-4 mb-14 mt-32">
-            <Link href={createPageUrl(currentPage -1)} className="rounded-xl border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
+            <Link href={createPageUrl(currentPage - 1)} className="rounded-xl border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-gray-800 hover:text-white hover:bg-pink-700 hover:border-pink-800 focus:text-white focus:bg-pink-800 focus:border-pink-800 active:border-pink-800 active:text-white active:bg-pink-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
                 <IoChevronBackOutline size={30} />
             </Link>
-            <Link href='' className="mt-1 min-w-9 rounded-full border border-slate-300 py-2 px-3.5 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
-                1
-            </Link>
-            <Link href='' className="mt-1 min-w-9 rounded-full border border-slate-300 py-2 px-3.5 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
-                2
-            </Link>
-            <Link href='' className="mt-1 min-w-9 rounded-full border border-slate-300 py-2 px-3.5 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
-                3
-            </Link>
-            <Link href={createPageUrl(currentPage + 1)} className="min-w-9 rounded-xl border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
+            {
+                allPages.map((page, index) => (
+                    <Link 
+                    key={page + '-' + index} 
+                    href={ createPageUrl(page)}
+                    className={
+                        clsx(
+                            "mt-1 min-w-9 rounded-full  py-2 px-3.5 text-center text-sm transition-all  hover:shadow-lg text-gray-900 hover:text-white hover:bg-pink-800 hover:border-pink-800 focus:text-white focus:bg-pink-800 focus:border-slate-800 active:border-pink-800 active:text-white active:bg-pink-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2",
+                            {
+                                // 'bg-red-500 shadow-sm text-white': page === currentPage
+                                // 'shadow-2xl': page === currentPage
+                            }
+                        )
+                    }>
+                        { page }
+                    </Link>
+                ))
+            }
+
+            <Link href={createPageUrl(currentPage + 1)} className="rounded-xl border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-gray-800 hover:text-white hover:bg-pink-700 hover:border-pink-800 focus:text-white focus:bg-pink-800 focus:border-pink-800 active:border-pink-800 active:text-white active:bg-pink-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
                 <IoChevronForwardOutline size={30} />
             </Link>
         </div>
