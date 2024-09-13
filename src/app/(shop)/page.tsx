@@ -1,5 +1,5 @@
 import { getPaginationProductsWithImages } from "@/actions";
-import { ProductGrid, SlideMobilPage, SlidePage, Title } from "@/components";
+import { Pagination, ProductGrid, SlideMobilPage, SlidePage, Title } from "@/components";
 import { initialData } from "@/seed/seed";
 import { redirect } from "next/navigation";
 
@@ -39,6 +39,8 @@ export default async function Home({ searchParams }: Props) {
 
       <ProductGrid
         products={products} />
+
+      <Pagination totalPages={ totalPages } />
 
 
     </>
