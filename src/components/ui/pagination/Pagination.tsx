@@ -1,4 +1,7 @@
+'use client'
+
 import Link from "next/link";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 
 interface Props {
@@ -8,9 +11,42 @@ interface Props {
 
 
 export const Pagination = ({ totalPages }: Props) => {
+
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const currentPage = Number(searchParams.get('page')) ?? 1;
+
+    console.log({ pathname, searchParams, currentPage });
+
+
+
+    const createPageUrl = (pageNumber: number | string) => {
+
+        const params = new URLSearchParams(searchParams);
+        
+        if( pageNumber === '...'){
+            return `${ pathname }?${ params.toString() }`
+        }
+
+        if( +pageNumber === 0){
+            return `${ pathname }`;//returna al pathname ya sea href= '/men, /kid, etc' 
+        }
+
+        if(+pageNumber > totalPages){
+            return `${ pathname }?${ params.toString() }`;
+        }
+
+        params.set('page', pageNumber.toString());
+        return `${ pathname }?${ params.toString() }`
+
+    }
+
+
+
+
     return (
         <div className="flex justify-center space-x-4 mb-14 mt-32">
-            <Link href='' className="rounded-xl border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
+            <Link href={createPageUrl(currentPage -1)} className="rounded-xl border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
                 <IoChevronBackOutline size={30} />
             </Link>
             <Link href='' className="mt-1 min-w-9 rounded-full border border-slate-300 py-2 px-3.5 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
@@ -22,8 +58,8 @@ export const Pagination = ({ totalPages }: Props) => {
             <Link href='' className="mt-1 min-w-9 rounded-full border border-slate-300 py-2 px-3.5 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
                 3
             </Link>
-            <Link href='' className="min-w-9 rounded-xl border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
-                <IoChevronForwardOutline size={30}/>
+            <Link href={createPageUrl(currentPage + 1)} className="min-w-9 rounded-xl border border-slate-300 py-2 px-3 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
+                <IoChevronForwardOutline size={30} />
             </Link>
         </div>
     )
@@ -69,7 +105,7 @@ export const Pagination = ({ totalPages }: Props) => {
                         <a
                             className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300  text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             href="#">
-                            <IoChevronForwardOutline size={30}/>
+                            <IoChevronForwardOutline size={30} />
                         </a>
                     </li>
                 </ul>
