@@ -12,7 +12,7 @@ const productInCart = [
     initialData.products[2],
 ]
 
-export default function () {
+export default function CartPage() {
 
 
     //si el carrito esta vacio usar el redirect

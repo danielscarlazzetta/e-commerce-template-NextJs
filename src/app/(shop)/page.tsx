@@ -1,3 +1,5 @@
+export const revalidate = 60;
+
 import { getPaginationProductsWithImages } from "@/actions";
 import { Pagination, ProductGrid, SlideMobilPage, SlidePage, Title } from "@/components";
 import { initialData } from "@/seed/seed";
