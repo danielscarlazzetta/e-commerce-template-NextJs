@@ -19,3 +19,5 @@ export * from './product/slideshow/ProductMobileSlideShow'
 export * from './product/slidePage/SlidePage'
 export * from './product/slidePage/SlideMobilPage'
 
+export * from './product/stock-label/StockLabel'
+
