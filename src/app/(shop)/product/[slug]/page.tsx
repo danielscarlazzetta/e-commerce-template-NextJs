@@ -4,6 +4,7 @@ import { getProductBySlug } from "@/actions";
 import { ProductMobileSlideShow, ProductSlideShow, QuantitySelector, SizeSelector, StockLabel } from "@/components";
 import { title_font } from "@/config/fonts";
 import { initialData } from "@/seed/seed";
+import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import { IoCartOutline } from "react-icons/io5";
 
@@ -11,6 +12,29 @@ import { IoCartOutline } from "react-icons/io5";
 interface Props {
     params: {
         slug: string;
+    }
+}
+
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    // read route params
+    const slug = params.slug
+
+    const product = await getProductBySlug(slug)
+
+    // const previousImages = (await parent).openGraph?.images || []
+
+    return {
+        title: product?.title ?? 'Producto no encontrado',
+        description: product?.description ?? '',
+        openGraph: {
+            title: product?.title ?? 'Producto no encontrado',
+            description: product?.description ?? '',
+            // images: [], https://queleo.com.product/prod-1/img.png
+            images: [`/products/${ product?.images[1]}`],
+        },
     }
 }
 
@@ -28,7 +52,8 @@ export default async function ProductBySlugPage({ params }: Props) {
     }
 
     return (
-        <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3">
+
+        <div className="mt-5 mb-20 lg:mx-52 grid grid-cols-1 md:grid-cols-3 gap-3 ">
 
             <div className="col-span-1 md:col-span-2">
                 {/* Mobile slideshow */}
@@ -53,7 +78,7 @@ export default async function ProductBySlugPage({ params }: Props) {
 
                 <p className="text-lg mb-5">${product.price}</p>
 
-                <StockLabel slug={ product.slug }/>
+                <StockLabel slug={product.slug} />
 
                 {/* Selector de tallas */}
                 <SizeSelector

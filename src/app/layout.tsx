@@ -4,7 +4,10 @@ import { inter } from "@/config/fonts";
 
 
 export const metadata: Metadata = {
-  title: "Que leo curico",
+  title: {
+    template: '%s - Que leo curico',
+    default: 'Home - Que leo curico'
+  },
   description: "Tienda virtual, ubicada en curico",
 };
 
