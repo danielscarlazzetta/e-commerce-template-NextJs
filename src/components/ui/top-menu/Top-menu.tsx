@@ -3,11 +3,20 @@
 import { title_font } from "@/config/fonts";
 import { IoSearchOutline, IoCartOutline } from "react-icons/io5";
 import Link from "next/link";
-import { useUiStore } from "@/store";
+import { useCartStore, useUiStore } from "@/store";
+import { useEffect, useState } from "react";
 
 export const TopMenu = () => {
 
-  const isSideMenuOpen = useUiStore( state => state.openSideMenu);
+  const isSideMenuOpen = useUiStore(state => state.openSideMenu);
+  const totalItemsInCart = useCartStore(state => state.getTotalItems())
+
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect( () => {
+    setLoaded(true)
+  }, [])
+
 
   return (
     <nav className="flex px-5 justify-between items-center w-full">
@@ -51,13 +60,20 @@ export const TopMenu = () => {
         </Link>
 
         <Link href="/cart" className="mx-2">
-          <div className="relative">
-            <span className="absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-red-700 text-white">3</span>
+          <div className="relative ">
+            {
+              (loaded && totalItemsInCart > 0) && (
+                <span className="fade-in absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-red-700 text-white">
+                  {totalItemsInCart}
+                </span>
+              )
+            }
+
             <IoCartOutline className="w-6 h-6" />
           </div>
         </Link>
 
-        <button className="m-2 p-2 rounded-md transition-all hover:bg-gray-100 mx-2" onClick={ () => isSideMenuOpen()}>
+        <button className="m-2 p-2 rounded-md transition-all hover:bg-gray-100 mx-2" onClick={() => isSideMenuOpen()}>
           Menu
         </button>
 
