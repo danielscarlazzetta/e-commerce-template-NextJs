@@ -7,6 +7,7 @@ import { initialData } from "@/seed/seed";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import { IoCartOutline } from "react-icons/io5";
+import { AddToCart } from "./ui/AddToCart";
 
 
 interface Props {
@@ -80,27 +81,14 @@ export default async function ProductBySlugPage({ params }: Props) {
 
                 <StockLabel slug={product.slug} />
 
-                {/* Selector de tallas */}
-                <SizeSelector
-                    selectedSize={product.sizes[0]}
-                    availableSizes={product.sizes} />
 
-                {/* Selector de cantidad */}
-                <QuantitySelector
-                    quantity={0} />
 
-                {/* Selector de Button */}
-                {/* <button className="btn-primary my-5">Agregar carrito</button> */}
-                <button
-                    className="group relative inline-flex items-center overflow-hidden rounded bg-pink-400 px-8 py-3 text-white focus:outline-none active:bg-pink-600"
 
-                >
-                    <span className="absolute -end-full transition-all group-hover:end-4">
-                        <IoCartOutline />
-                    </span>
+               <AddToCart 
+               product={ product }/>
 
-                    <span className="text-sm font-medium transition-all group-hover:me-4"> Agregar al carrito </span>
-                </button>
+
+
 
                 {/* Descripcion */}
                 <h3 className="font-bold text-sm">
