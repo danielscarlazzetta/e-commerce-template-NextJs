@@ -1,16 +1,8 @@
-import { QuantitySelector, Title } from "@/components";
-import { initialData } from "@/seed/seed";
-import Image from "next/image";
+import { Title } from "@/components";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { IoRemoveCircleOutline, IoTrashOutline } from "react-icons/io5";
+import { ProductInCart } from "./ui/ProductInCart";
 
 
-const productInCart = [
-    initialData.products[0],
-    initialData.products[1],
-    initialData.products[2],
-]
 
 export default function CartPage() {
 
@@ -36,38 +28,8 @@ export default function CartPage() {
                         </span>
                     {/* Items */}
 
-                    {
-                        productInCart.map(p => (
-                            <div key={p.slug} className="flex mt-5">
-                                <Image
-                                    src={`/products/${p.images[0]}`}
-                                    width={150}
-                                    height={100}
-                                    alt={p.title}
-                                    className="mr-5 rounded">
-
-                                </Image>
-                                <div>
-                                    <p>{p.title}</p>
-                                    <p>{p.price}</p>
-                                    <QuantitySelector
-                                        quantity={3} />
-
-                                    <button
-                                        className="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none active:bg-red-500"
-                                        
-                                        >
-                                        <span className="absolute -end-full transition-all group-hover:end-4">
-                                            <IoTrashOutline />
-                                        </span>
-
-                                        <span className="text-sm font-medium transition-all group-hover:me-4"> Remover </span>
-                                    </button>
-                                </div>
-
-                            </div>
-                        ))
-                    }
+                   <ProductInCart
+                    />
 
                     </div>
 
