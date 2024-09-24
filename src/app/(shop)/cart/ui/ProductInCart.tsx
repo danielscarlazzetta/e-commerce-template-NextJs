@@ -12,6 +12,8 @@ export const ProductInCart = () => {
 
     const [loaded, setLoaded] = useState(false);
     const productInCart = useCartStore(state => state.cart);
+    const updateProductQuantity = useCartStore( state => state.updateProductQuantity )
+    const removeProduct = useCartStore( state => state.removeProduct )
 
 
     useEffect(() => {
@@ -40,12 +42,13 @@ export const ProductInCart = () => {
                             <Link className="cursor-pointer" href={`/product/${p.slug}`}>
                                 <p>{p.title}</p>
                             </Link>
-                            <p>{p.price}</p>
+                            <p>$ {p.price}</p>
                             <QuantitySelector
-                                quantity={3}
-                                onQuantityChanged={value => console.log(value)} />
+                                quantity={ p.quantity }
+                                onQuantityChanged={ quantity => updateProductQuantity(p, quantity)} />
 
                             <button
+                                onClick={ () => removeProduct(p) }
                                 className="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none active:bg-red-500"
 
                             >
