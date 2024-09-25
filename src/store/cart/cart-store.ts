@@ -7,12 +7,17 @@ import { persist } from "zustand/middleware";
 interface State {
     cart: CartProduct[];
 
-
     getTotalItems: () => number;
-
+    getSumaryInformation: () => {
+        subsTotal: number;
+        tax: number;
+        total : number;
+        itemsInCart: number;
+    };
     addProductToCart: (product: CartProduct) => void;
     updateProductQuantity: (product: CartProduct, quantity: number) => void;
     removeProduct: (product: CartProduct) => void;
+
 }
 
 export const useCartStore = create<State>()(
@@ -31,6 +36,27 @@ export const useCartStore = create<State>()(
                 return cart.reduce( ( total , item ) => total + item.quantity, 0 );
             },
             
+            // 5. Calculo de la orden
+            getSumaryInformation: () => {
+
+                const { cart } = get();
+
+                const subsTotal = cart.reduce( (subTotal, producto) =>
+                    (producto.quantity * producto.price) + subTotal
+                    , 0);
+
+                const tax = subsTotal * 0.19;
+                const total = subsTotal + tax;
+
+                const itemsInCart = cart.reduce( ( total , item ) => total + item.quantity, 0 );
+
+                return {
+                    subsTotal,
+                    tax,
+                    total,
+                    itemsInCart,
+                };
+            },
             
             // 2. Agregar productos
             addProductToCart: (product: CartProduct) => {
@@ -84,6 +110,10 @@ export const useCartStore = create<State>()(
                 set({ cart: updatedCartProducts})
 
             },
+
+
+            
+            
 
         })
         ,
