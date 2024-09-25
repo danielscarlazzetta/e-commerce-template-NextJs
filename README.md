@@ -72,6 +72,30 @@ npm install prisma --save-dev
 ```
 npx prisma init --datasource-provider PostgreSQL
 
+
+Agregar nextAuth
+
+documentacion
+https://nextjs.org/learn/dashboard-app/adding-authentication
+(Revisar el release ) https://github.com/nextauthjs/next-auth
+https://github.com/nextauthjs/next-auth/pull/11666
+
+pnpm i next-auth@beta
+
+
+Importante
+
+luego de hacer la instalacion de nextAuth debemos ejecutar este comando 
+openssl rand -base64 32
+en gitBash, asi nos genera una contrasena segura
+
+(Este valor va a cambiar dependiendo el codigo que se ejecuta )4rAF/D/7SKfXzNF317ivn+ebhFYbZrTD9zEiUZY+3Zw=
+
+
+
+
+
+
 warn You already have a .gitignore file. Don't forget to add `.env` in it to not commit any private information.
 
 Next steps:
