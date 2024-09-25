@@ -91,7 +91,11 @@ en gitBash, asi nos genera una contrasena segura
 
 (Este valor va a cambiar dependiendo el codigo que se ejecuta )4rAF/D/7SKfXzNF317ivn+ebhFYbZrTD9zEiUZY+3Zw=
 
+## Instalacion zod
 
+```
+npm install zod
+```
 
 
 
