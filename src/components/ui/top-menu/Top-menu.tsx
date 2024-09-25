@@ -13,7 +13,7 @@ export const TopMenu = () => {
 
   const [loaded, setLoaded] = useState(false);
 
-  useEffect( () => {
+  useEffect(() => {
     setLoaded(true)
   }, [])
 
@@ -59,7 +59,11 @@ export const TopMenu = () => {
           <IoSearchOutline className="w-6 h-6" />
         </Link>
 
-        <Link href="/cart" className="mx-2">
+        <Link href={
+          ((totalItemsInCart === 0) && loaded) ?
+            '/empty'
+            : '/cart'
+        } className="mx-2">
           <div className="relative ">
             {
               (loaded && totalItemsInCart > 0) && (
