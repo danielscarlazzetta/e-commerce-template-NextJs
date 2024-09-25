@@ -40,7 +40,7 @@ export const ProductInCart = () => {
                         </Image>
                         <div>
                             <Link className="cursor-pointer" href={`/product/${p.slug}`}>
-                                <p>{p.title}</p>
+                                <p>{p.size} - {p.title}</p>
                             </Link>
                             <p>$ {p.price}</p>
                             <QuantitySelector
