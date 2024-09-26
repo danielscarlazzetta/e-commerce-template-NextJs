@@ -7,6 +7,7 @@ import { IoBookOutline, IoCloseOutline, IoLogInOutline, IoLogOutOutline, IoPeopl
 import clsx from "clsx";
 import { logout } from "@/actions";
 import { useSession } from "next-auth/react";
+import { MdOutlineSell } from "react-icons/md";
 
 export const Sidebar = () => {
 
@@ -15,6 +16,12 @@ export const Sidebar = () => {
 
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
+
+  const isAdmin = session?.user.role === 'admin';
+  const isSeller = session?.user.role === 'seller';
+
+
+  console.log(isAdmin)
 
   console.log({ session })
 
@@ -60,18 +67,26 @@ export const Sidebar = () => {
         </div>
 
         {/* Menu */}
-        <Link href="/profile"
-          onClick={() => closeMenu()}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
-          <IoPersonOutline size={30} />
-          <span className="ml-3 text-xl">Perfil</span>
-        </Link>
 
-        <Link href="/"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
-          <IoTicketOutline size={30} />
-          <span className="ml-3 text-xl">Ordenes</span>
-        </Link>
+        {
+          isAuthenticated && (
+            <>
+              <Link href="/profile"
+                onClick={() => closeMenu()}
+                className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
+                <IoPersonOutline size={30} />
+                <span className="ml-3 text-xl">Perfil</span>
+              </Link>
+
+              <Link href="/"
+                className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
+                <IoTicketOutline size={30} />
+                <span className="ml-3 text-xl">Ordenes</span>
+              </Link>
+            </>
+          )
+        }
+
 
 
         {
@@ -100,33 +115,60 @@ export const Sidebar = () => {
         }
 
 
+        {
+          isAdmin && (
+            <>
+              <div className="w-full mt-10 h-2 bg-gray-200 rounded-lg" />
+              <Link href="/"
+                className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
+                <MdOutlineSell size={30} />
+                <span className="ml-3 text-xl">Vender</span>
+              </Link>
 
-        {/* LineSeparator */}
-        <div className="w-full mt-10 h-2 bg-gray-200 rounded-lg" />
+              {/* LineSeparator */}
+              <div className="w-full mt-10 h-2 bg-gray-200 rounded-lg" />
 
-        <Link href="/"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
-          <IoShirtOutline size={30} />
-          <span className="ml-3 text-xl">Productos</span>
-        </Link>
+              <Link href="/"
+                className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
+                <IoShirtOutline size={30} />
+                <span className="ml-3 text-xl">Productos</span>
+              </Link>
 
-        <Link href="/"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
-          <IoBookOutline size={30} />
-          <span className="ml-3 text-xl">Libros</span>
-        </Link>
+              <Link href="/"
+                className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
+                <IoBookOutline size={30} />
+                <span className="ml-3 text-xl">Libros</span>
+              </Link>
 
-        <Link href="/"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
-          <IoTicketOutline size={30} />
-          <span className="ml-3 text-xl">Ordenes</span>
-        </Link>
+              <Link href="/"
+                className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
+                <IoTicketOutline size={30} />
+                <span className="ml-3 text-xl">Ordenes</span>
+              </Link>
 
-        <Link href="/"
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
-          <IoPeopleOutline size={30} />
-          <span className="ml-3 text-xl">Ordenes</span>
-        </Link>
+              <Link href="/"
+                className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
+                <IoPeopleOutline size={30} />
+                <span className="ml-3 text-xl">Ordenes</span>
+              </Link>
+
+            </>
+          )
+        }
+
+        {
+          isSeller && (
+            <>
+              <div className="w-full mt-10 h-2 bg-gray-200 rounded-lg" />
+              <Link href="/"
+                className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
+                <MdOutlineSell size={30} />
+                <span className="ml-3 text-xl">Vender</span>
+              </Link>
+            </>
+          )
+        }
+
 
       </nav>
     </div>
