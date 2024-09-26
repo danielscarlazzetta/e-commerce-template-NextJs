@@ -98,6 +98,9 @@ npm install zod
 ```
 
 
+## Migrar datos del prisma, es decir que estos datos son nuevos(usados para crear al usuario y el rol)
+
+```npx prisma migrate dev --name user-role```
 
 
 warn You already have a .gitignore file. Don't forget to add `.env` in it to not commit any private information.
