@@ -11,7 +11,8 @@ export const LoginForm = () => {
         undefined,
       );
 
-      console.log({state})
+      console.log({state});
+      console.log('Login form' , {state});
 
     return(
         <form action={ dispatch } className="flex flex-col">
