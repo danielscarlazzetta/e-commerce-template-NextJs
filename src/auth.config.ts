@@ -1,3 +1,5 @@
+'use client'
+
 import NextAuth, { type NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
@@ -18,6 +20,8 @@ export const authConfig: NextAuthConfig = {
             .object({ email: z.string().email(), password: z.string().min(6) })
             .safeParse(credentials);
 
+
+            //Este apartado nos indica si es valido pasar o no la contrasena o el password
             if( !parsedCredentials.success) return null;
 
             const { email, password} = parsedCredentials.data;
