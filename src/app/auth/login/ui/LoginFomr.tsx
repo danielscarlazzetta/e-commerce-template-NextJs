@@ -5,6 +5,8 @@ import clsx from "clsx";
 import Link from "next/link"
 import { useFormState, useFormStatus } from "react-dom";
 import { IoInformationOutline } from "react-icons/io5";
+import { MdReportGmailerrorred } from "react-icons/md";
+import { RiErrorWarningLine } from "react-icons/ri";
 
 export const LoginForm = () => {
 
@@ -36,7 +38,7 @@ export const LoginForm = () => {
         state === "CredentialsSignin" && (
           <div className="mb-5 flex flex-row">
 
-            <IoInformationOutline className="h-5 w-5 text-red-500" />
+            <RiErrorWarningLine className="h-5 w-5 text-red-500" />
             <p className="text-sm text-red-500">
               Credenciales invalidas
             </p>
