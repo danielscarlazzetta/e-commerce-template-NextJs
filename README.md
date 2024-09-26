@@ -9,8 +9,9 @@
 5. Intalacion de prisma
 6. conectar el gestyor de base de datos al docker(Dbeaver / TablePlus)
 7. Crear el pull( el pull es basicamente tomar la base de datos y crear el shchema.prisma, y asi poder editar este) ``` npx prisma db pull ```
-8. luego de crear o modificar el schema.prisma vamos a ejecutar el comando para actualizarlo en la base de datos ``` npx prisma migrate dev --name ProductCategoery```
+8. luego de crear o modificar el schema.prisma vamos a ejecutar el comando para actualizarlo en la base de datos ``` npx prisma migrate dev --name ProductCategoery``` esto permite crear la base de datos, o sobreescribirla
 9.  correr proyecto ``` npm run dev ```
+
 
 9.5 Para efectos de desarrollo ejecutaremos el siguente comando que nos permitira ejecutar codigo de typescript en node ```npm i -D ts-node ```
 9.5.1 Para ejecutar la semilla(Seed-databse) iremos a la carpeta de esta desde la terminal => cd src/seed/
@@ -96,6 +97,10 @@ en gitBash, asi nos genera una contrasena segura
 ```
 npm install zod
 ```
+
+## Instalar bcrypot para la contrase;a del usuario
+
+``` npm i bcryptjs```
 
 
 ## Migrar datos del prisma, es decir que estos datos son nuevos(usados para crear al usuario y el rol)
