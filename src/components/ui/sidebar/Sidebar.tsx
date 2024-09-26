@@ -6,11 +6,16 @@ import { useUiStore } from "@/store";
 import { IoBookOutline, IoCloseOutline, IoLogInOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline, IoSearchOutline, IoShirtOutline, IoTicketOutline } from "react-icons/io5";
 import clsx from "clsx";
 import { logout } from "@/actions";
+import { useSession } from "next-auth/react";
 
 export const Sidebar = () => {
 
   const isSideMenuOpen = useUiStore( state => state.isSideMenuOpen);
   const closeMenu = useUiStore( state => state.closeSideMenu);
+
+  const { data: session} = useSession();
+  
+  console.log({session})
 
   return (
     <div>
