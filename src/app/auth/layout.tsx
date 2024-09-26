@@ -7,8 +7,8 @@ export default async function ShopLayout({ children, }: Readonly<{
 
 
   const session = await auth();
-  
-  if(session?.user){
+
+  if (session?.user) {
     redirect('/');
   }
 

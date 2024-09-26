@@ -10,15 +10,20 @@ export async function authenticate(
     try {
 
         await sleep(.2);
-        await signIn('credentials', Object.fromEntries(formData));
-        // return 'Success';
+        await signIn('credentials', {
+            ...Object.fromEntries(formData),
+            redirect: false,
+        });
+        return 'Success';
 
     } catch (error) {
-        // if((error as Error).message.includes('CredentialsSignin')){
-        //     return 'CredentialsSignin'
-        // }
-        
+
+        console.log(error)
         return 'CredentialsSignin'
-        // throw error;
+
+        if((error as any).type === 'CredentialsSignin'){
+        }
+
+        return 'Error desconocido'
     }
 }
