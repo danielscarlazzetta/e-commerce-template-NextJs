@@ -108,6 +108,13 @@ npm install zod
 ```npx prisma migrate dev --name user-role```
 
 
+## Agregamos react form
+
+```npm install react-hook-form```
+
+
+
+
 warn You already have a .gitignore file. Don't forget to add `.env` in it to not commit any private information.
 
 Next steps:
