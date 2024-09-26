@@ -13,6 +13,24 @@ export const authConfig: NextAuthConfig = {
     signIn: 'auth/login',
     newUser: 'auth/new-account',
   },
+
+  callbacks: {
+
+    jwt({ token, user}) {
+      if( user ){
+        token.data = user;
+      }
+      return token;
+    },
+    session({session, token, user}) {
+      console.log({token, session, user})
+      session.user = token.data as any;
+      return session;
+    },
+  },
+
+
+
   // para estos providers podemos usar appleId, google, facebook, etc, los que soporte basicamente
   providers: [
 
@@ -40,8 +58,6 @@ export const authConfig: NextAuthConfig = {
 
         // regresar el usuario sin el password
         const { password: _, ...rest} = user;
-
-        console.log({rest})
 
         return rest;
       },
