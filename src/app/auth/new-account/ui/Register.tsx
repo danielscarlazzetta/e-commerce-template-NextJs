@@ -1,7 +1,9 @@
 'use client'
 
+import { login, registerUser } from "@/actions";
 import clsx from "clsx";
 import Link from "next/link"
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaUserInjured } from "react-icons/fa";
 import { MdOutlineMailLock } from "react-icons/md";
@@ -17,10 +19,21 @@ type FormInputs = {
 
 export const RegisterForm = () => {
 
+    const [errorMenssage, setErrorMessage] = useState('')
     const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
+
     const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+        setErrorMessage('')
         const { name, email, password } = data;
-        console.log({ name, email, password })
+        const resp = await registerUser(name, email, password);
+
+        if (!resp.ok) {
+            setErrorMessage(resp.message)
+            return;
+        }
+
+        await login(email.toLowerCase(), password);
+        window.location.replace('/')
     }
 
 
@@ -29,7 +42,7 @@ export const RegisterForm = () => {
 
             {
                 errors.name?.type === 'required' && (
-                    <span className="text-red-500 inline-flex items-center"><FaUserInjured size={20}/> Nombre obligatorio</span>
+                    <span className="text-red-500 inline-flex items-center"><FaUserInjured size={20} /> Nombre obligatorio</span>
                 )
             }
             <label htmlFor="email">Nombre Completo</label>
@@ -38,7 +51,7 @@ export const RegisterForm = () => {
                     clsx(
                         "px-5 py-2 border bg-gray-200 rounded mb-5",
                         {
-                            "border-red-500" : errors.name
+                            "border-red-500": errors.name
                         }
                     )
                 }
@@ -58,7 +71,7 @@ export const RegisterForm = () => {
                     clsx(
                         "px-5 py-2 border bg-gray-200 rounded mb-5",
                         {
-                            "border-red-500" : errors.email
+                            "border-red-500": errors.email
                         }
                     )
                 }
@@ -79,12 +92,14 @@ export const RegisterForm = () => {
                     clsx(
                         "px-5 py-2 border bg-gray-200 rounded mb-5",
                         {
-                            "border-red-500" : errors.password
+                            "border-red-500": errors.password
                         }
                     )
                 }
                 type="password"
                 {...register('password', { required: true, minLength: 5 })} />
+
+           <span className="text-red-500 mb-6">{ errorMenssage }</span>
 
             <button
                 className="btn-primary">
