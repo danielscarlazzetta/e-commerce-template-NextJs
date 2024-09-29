@@ -5,6 +5,9 @@ import clsx from "clsx";
 import { useForm } from "react-hook-form"
 import { IoWalletOutline } from "react-icons/io5"
 
+import regionesData from './comunas-regiones.json';
+import { useState } from "react";
+
 type FormInputs = {
     firstName: string;
     lastName: string;
@@ -15,6 +18,9 @@ type FormInputs = {
     country: string;
     phone: string;
     rememberAddress: boolean;
+    // Funcion realizada solo para chile
+    region?: string;
+    comuna?: string;
 }
 
 interface Props {
@@ -33,6 +39,21 @@ export const AddressForm = ({ countries }: Props) => {
     const onSubmit = (data: FormInputs) => {
         console.log({ data })
     }
+
+    // Regiones y demas
+    const [selectedRegion, setSelectedRegion] = useState('');
+    const [comunas, setComunas] = useState<string[]>([]);
+
+    const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const region = e.target.value;
+        setSelectedRegion(region);
+
+        // Busca las comunas de la región seleccionada
+        const foundRegion = regionesData.regiones.find(r => r.region === region);
+        setComunas(foundRegion ? foundRegion.comunas : []);
+    };
+
+
     return (
 
         <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2">
@@ -107,33 +128,6 @@ export const AddressForm = ({ countries }: Props) => {
             </div>
 
 
-
-            <div className="flex flex-col mb-2">
-                <span>Region</span>
-                <select
-                    className="p-2 border rounded-md bg-gray-200"
-                    {...register('country', { required: true })}
-                >
-                    <option value="">[ Seleccione ]</option>
-                    
-                    <option  value="asd">arica</option>
-                </select>
-            </div>
-            <div className="flex flex-col mb-2">
-                <span>Comuna</span>
-                <select
-                    className="p-2 border rounded-md bg-gray-200"
-                    {...register('country', { required: true })}
-                >
-                    <option value="">[ Seleccione ]</option>
-                    
-                    <option  value="asd">parinacota</option>
-                </select>
-            </div>
-
-
-
-
             <div className="flex flex-col mb-2">
                 <span>Teléfono</span>
                 <input
@@ -142,6 +136,54 @@ export const AddressForm = ({ countries }: Props) => {
                     {...register('phone', { required: true })}
                 />
             </div>
+
+
+
+            <div className="flex flex-col mb-2">
+                <span>Region</span>
+                <select
+                    id="region"
+                    value={selectedRegion}
+                    className="p-2 border rounded-md bg-gray-200"
+                    {...register('region', {
+                        onChange: (e) => {
+                          handleRegionChange(e);
+                        }
+                      })}
+                >
+                    <option value="">[ Seleccione ]</option>
+
+                    {regionesData.regiones.map((region) => (
+                        <option key={region.region} value={region.region}>
+                            {region.region}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div className="flex flex-col mb-2">
+                <span>Comuna</span>
+                <select
+                    id="comuna"
+                    disabled={!selectedRegion}
+                    className="p-2 border rounded-md bg-gray-200"
+                    {...register('comuna', { required: true })}
+                >
+                    <option value="">[ Seleccione ]</option>
+
+                    {comunas.map((comuna) => (
+                        <option key={comuna} value={comuna}>
+                            {comuna}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+
+
+
+
+            
 
             <div className="flex flex-col mb-2 sm:mt-1">
 
