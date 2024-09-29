@@ -127,3 +127,11 @@ More information in our documentation:
 https://pris.ly/d/getting-started
 
 ## fin prisma
+
+
+
+
+
+
+
+## npx prisma studio basicamente genera un visor de base de datos 
