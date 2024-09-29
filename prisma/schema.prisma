@@ -69,3 +69,9 @@ enum Role {
   seller
   user
 }
+
+
+model Country{
+  id String @id
+  name String
+}

@@ -1,6 +1,7 @@
-import { create } from 'zustand';
+
 import prisma from '../lib/prisma'
 import { initialData } from "./seed";
+import { countries } from './seed-countries';
 
 
 async function main() {
@@ -13,6 +14,7 @@ async function main() {
     // ])
 
     await prisma.user.deleteMany();
+    await prisma.country.deleteMany();
 
     await prisma.productImage.deleteMany();
     await prisma.product.deleteMany();
@@ -24,6 +26,10 @@ async function main() {
 
     await prisma.user.createMany({
       data: user
+    })
+
+    await prisma.country.createMany({
+      data: countries
     })
 
     //2. Insertar categorias
