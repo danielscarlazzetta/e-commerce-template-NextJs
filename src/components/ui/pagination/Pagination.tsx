@@ -17,14 +17,12 @@ export const Pagination = ({ totalPages }: Props) => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-
     const pageString = searchParams.get('page') ?? 1;
     const currentPage = isNaN(+pageString) ? 1 : +pageString;
 
     if (currentPage < 1 || isNaN(+pageString)) {
         redirect(pathname);
     }
-
     // const currentPage = Number( searchParams.get('page') ? searchParams.get('page') : 1 ) ?? 1;
 
     const allPages = generatePaginationNumbers(currentPage, totalPages);

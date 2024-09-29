@@ -1,19 +1,17 @@
-export const relavidate = 1000;
+// export const relavidate = 1000;
 
 import { getProductBySlug } from "@/actions";
-import { ProductMobileSlideShow, ProductSlideShow, QuantitySelector, SizeSelector, StockLabel } from "@/components";
+import { ProductMobileSlideShow, ProductSlideShow, StockLabel } from "@/components";
 import { title_font } from "@/config/fonts";
-import { initialData } from "@/seed/seed";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import { IoCartOutline } from "react-icons/io5";
 import { AddToCart } from "./ui/AddToCart";
 
 
 interface Props {
     params: {
         slug: string;
-    }
+    };
 }
 
 export async function generateMetadata(
@@ -34,7 +32,7 @@ export async function generateMetadata(
             title: product?.title ?? 'Producto no encontrado',
             description: product?.description ?? '',
             // images: [], https://queleo.com.product/prod-1/img.png
-            images: [`/products/${ product?.images[1]}`],
+            images: [`/products/${product?.images[1]}`],
         },
     }
 }
@@ -84,8 +82,8 @@ export default async function ProductBySlugPage({ params }: Props) {
 
 
 
-               <AddToCart 
-               product={ product }/>
+                <AddToCart
+                    product={product} />
 
 
 

@@ -1,10 +1,10 @@
 
 
 
-export * from './products/product-pagination'
-export * from './products/get-product-by-slug'
-export * from './products/get-stock-by-slug'
+export {getPaginationProductsWithImages} from './products/product-pagination'
+export {getProductBySlug} from './products/get-product-by-slug'
+export {getStockBySlug} from './products/get-stock-by-slug'
 
-export * from './auth/Login'
-export * from './auth/LogOut'
-export * from './auth/Register'
+export {authenticate,login} from './auth/login'
+export {logout} from './auth/logout'
+export {registerUser} from './auth/register'

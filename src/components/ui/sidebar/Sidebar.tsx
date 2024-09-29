@@ -1,27 +1,51 @@
 "use client";
 
 import Link from "next/link";
-
-import { useUiStore } from "@/store";
-import { IoBookOutline, IoCloseOutline, IoLogInOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline, IoSearchOutline, IoShirtOutline, IoTicketOutline } from "react-icons/io5";
 import clsx from "clsx";
-import { logout } from "@/actions";
 import { useSession } from "next-auth/react";
+import { useUiStore } from "@/store";
+import { logout } from "@/actions";
+
+import {
+  IoBookOutline,
+  IoCloseOutline,
+  IoLogInOutline,
+  IoLogOutOutline,
+  IoPeopleOutline,
+  IoPersonOutline,
+  IoSearchOutline,
+  IoShirtOutline,
+  IoTicketOutline } from "react-icons/io5";
 import { MdOutlineSell } from "react-icons/md";
+import { useRouter } from "next/router";
 
 export const Sidebar = () => {
 
-  const isSideMenuOpen = useUiStore(state => state.isSideMenuOpen);
-  const closeMenu = useUiStore(state => state.closeSideMenu);
+  const isSideMenuOpen = useUiStore((state) => state.isSideMenuOpen);
+  const closeMenu = useUiStore((state) => state.closeSideMenu);
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    // Mostrar un spinner o indicador de carga mientras la sesión se está cargando
+    // return null;
+    return <div>Cargando...</div>;
+  }
+  // const router = useRouter();
+  const handleLogout = async () => {
+    await logout(); 
+    closeMenu(); 
+    window.location.replace('/'); 
+    // router.push('/'); 
+  };
+
   const isAuthenticated = !!session?.user;
 
   const isAdmin = session?.user.role === 'admin';
-  const isSeller = session?.user.role === 'seller';
+  // const isUser = session?.user.role === 'user';
+  // const isSeller = session?.user.role === 'seller';
 
 
-  console.log(isAdmin)
 
   console.log({ session })
 
@@ -83,6 +107,7 @@ export const Sidebar = () => {
                 <IoTicketOutline size={30} />
                 <span className="ml-3 text-xl">Ordenes</span>
               </Link>
+          
             </>
           )
         }
@@ -92,10 +117,11 @@ export const Sidebar = () => {
         {
           isAuthenticated && (
             <button
-              onClick={() => {
-                logout();
-                closeMenu();
-              }}
+              // onClick={() => {
+              //   logout();
+              //   closeMenu();
+              // }}
+              onClick={handleLogout}
               className="flex items-center w-full mt-10 p-2 hover:bg-gray-100 rounded transition-all">
               <IoLogOutOutline size={30} />
               <span className="ml-3 text-xl">Salir</span>
@@ -156,8 +182,8 @@ export const Sidebar = () => {
           )
         }
 
-        {
-          isSeller && (
+        {/* {
+          (isSeller && !isAdmin && !isUser) && (
             <>
               <div className="w-full mt-10 h-2 bg-gray-200 rounded-lg" />
               <Link href="/"
@@ -167,11 +193,10 @@ export const Sidebar = () => {
               </Link>
             </>
           )
-        }
+        } */}
 
 
       </nav>
     </div>
   );
 };
-390;

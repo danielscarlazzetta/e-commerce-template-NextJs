@@ -3,26 +3,25 @@
 import { authenticate } from "@/actions";
 import clsx from "clsx";
 import Link from "next/link"
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { RiErrorWarningLine } from "react-icons/ri";
 
 export const LoginForm = () => {
 
-  const router = useRouter();
 
-  const [state, dispatch] = useFormState(
-    authenticate,
-    undefined,
-  );
+  const [state, dispatch] = useFormState(authenticate, undefined);
+
+  console.log(state);
 
   useEffect(() => {
-    if(state === 'Success'){
+    if ( state === 'Success' ) {
+      // redireccionar
       // router.replace('/');
-      window.location.replace('/')
+      window.location.replace('/');
     }
-  }, [state]);
+
+  },[state]);
 
   return (
     <form action={dispatch} className="flex flex-col">
@@ -81,18 +80,16 @@ export const LoginForm = () => {
 function LoginButton() {
   const { pending } = useFormStatus();
 
-  return(
-    <button
-        type="submit"
-        className={
-          clsx(
-            {"btn-primary": !pending,
-            "btn-disabled": pending}
-          )
-        }
-        disabled={pending}
-        >
-        Ingresar
-      </button>
-  )
+  return (
+    <button 
+      type="submit" 
+      className={ clsx({
+        "btn-primary": !pending,
+        "btn-disabled": pending
+      })}
+      disabled={ pending }
+      >
+      Ingresar
+    </button>
+  );
 }

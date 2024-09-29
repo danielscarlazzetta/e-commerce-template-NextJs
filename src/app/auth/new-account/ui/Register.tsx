@@ -1,10 +1,11 @@
 'use client'
 
-import { login, registerUser } from "@/actions";
 import clsx from "clsx";
 import Link from "next/link"
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { login, registerUser } from "@/actions";
+import { useState } from "react";
+
 import { FaUserInjured } from "react-icons/fa";
 import { MdOutlineMailLock } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -25,10 +26,12 @@ export const RegisterForm = () => {
     const onSubmit: SubmitHandler<FormInputs> = async (data) => {
         setErrorMessage('')
         const { name, email, password } = data;
+
+        // server action
         const resp = await registerUser(name, email, password);
 
         if (!resp.ok) {
-            setErrorMessage(resp.message)
+            setErrorMessage(resp.message);
             return;
         }
 
@@ -45,6 +48,7 @@ export const RegisterForm = () => {
                     <span className="text-red-500 inline-flex items-center"><FaUserInjured size={20} /> Nombre obligatorio</span>
                 )
             }
+
             <label htmlFor="email">Nombre Completo</label>
             <input
                 className={
@@ -65,6 +69,7 @@ export const RegisterForm = () => {
                     <span className="text-red-500 inline-flex items-center"><MdOutlineMailLock /> Correo Obligatorio</span>
                 )
             }
+
             <label htmlFor="email">Correo electrónico</label>
             <input
                 className={
@@ -76,10 +81,7 @@ export const RegisterForm = () => {
                     )
                 }
                 type="email"
-                {...register('email', {
-                    required: true,
-                    pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-                })} />
+                { ...register('email', { required: true, pattern: /^\S+@\S+$/i }) } />
 
             {
                 errors.password?.type === 'required' && (

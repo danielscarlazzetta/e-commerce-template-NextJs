@@ -1,8 +1,6 @@
 'use server';
 
 import { signIn } from '@/auth.config'
-import { sleep } from '@/utils';
-import email from 'next-auth/providers/email';
 
 export async function authenticate(
     prevState: string | undefined,
@@ -10,7 +8,6 @@ export async function authenticate(
 ) {
     try {
 
-        // await sleep(.2);
         await signIn('credentials', {
             ...Object.fromEntries(formData),
             redirect: false,
@@ -21,11 +18,6 @@ export async function authenticate(
 
         console.log(error)
         return 'CredentialsSignin'
-
-        if ((error as any).type === 'CredentialsSignin') {
-        }
-
-        return 'Error desconocido'
     }
 }
 

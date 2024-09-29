@@ -1,8 +1,7 @@
-export const revalidate = 60;
+// export const revalidate = 60;
 
 import { getPaginationProductsWithImages } from "@/actions";
 import { Pagination, ProductGrid, SlideMobilPage, SlidePage, Title } from "@/components";
-import { initialData } from "@/seed/seed";
 import { redirect } from "next/navigation";
 
 
@@ -17,7 +16,7 @@ interface Props {
 
 export default async function Home({ searchParams }: Props) {
 
-  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const page = await (searchParams.page ? parseInt( searchParams.page) : 1);
 
   const { products, currentPage, totalPages } = await getPaginationProductsWithImages({ page });
 
