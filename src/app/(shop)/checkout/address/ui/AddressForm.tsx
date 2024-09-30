@@ -8,6 +8,8 @@ import { IoWalletOutline } from "react-icons/io5"
 import regionesData from './comunas-regiones.json';
 import { useEffect, useState } from "react";
 import { useAddressStore } from "@/store";
+import { setUserAddress } from "@/actions";
+import { useSession } from "next-auth/react";
 
 type FormInputs = {
     firstName: string;
@@ -37,8 +39,11 @@ export const AddressForm = ({ countries }: Props) => {
         }
     });
 
-    //guardarlo en localstorage
+    const { data: session } = useSession({
+        required: true,
+    }); 
 
+    //guardarlo en localstorage
     const setAddress = useAddressStore( state => state.setAddress);
     const address = useAddressStore( state => state.address);
 
@@ -51,6 +56,14 @@ export const AddressForm = ({ countries }: Props) => {
     const onSubmit = (data: FormInputs) => {
         console.log({ data })
         setAddress(data);
+
+        const {rememberAddress, ...restAddress} = data;
+
+        if( rememberAddress ){
+            setUserAddress( restAddress, session!.user.id )
+        }else{
+
+        }
     }
 
     // Regiones y demas

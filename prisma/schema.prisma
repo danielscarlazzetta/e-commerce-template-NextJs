@@ -40,11 +40,13 @@ model ProductImage {
 model User {
   id            String    @id @default(uuid())
   name          String
-  email          String    @unique
+  email         String    @unique
   emailVerified DateTime?
   password      String
   role          Role      @default(user)
   image         String?
+
+  address       UserAddress?
 }
 
 enum Size {
@@ -70,8 +72,29 @@ enum Role {
   user
 }
 
-
-model Country{
-  id String @id
+model Country {
+  id   String @id
   name String
+  UserAddress UserAddress[] 
+}
+
+model UserAddress {
+  id String @id @default(uuid())
+  firstName String
+  lastName String
+  address String
+  address2 String?
+  postalCode String?
+  city String
+  // country String
+  phone String
+  region String?
+  comuna String?
+
+  // relaciones
+  country Country @relation(fields: [countryId], references: [id])
+  countryId String
+
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique
 }
