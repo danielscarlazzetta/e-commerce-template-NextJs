@@ -1,6 +1,6 @@
 'use client'
 
-import type { Country } from "@/interface";
+import type { Address, Country } from "@/interface";
 import clsx from "clsx";
 import { useForm } from "react-hook-form"
 import { IoWalletOutline } from "react-icons/io5"
@@ -8,8 +8,9 @@ import { IoWalletOutline } from "react-icons/io5"
 import regionesData from './comunas-regiones.json';
 import { useEffect, useState } from "react";
 import { useAddressStore } from "@/store";
-import { setUserAddress } from "@/actions";
+import { deleteUserAddress, setUserAddress } from "@/actions";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type FormInputs = {
     firstName: string;
@@ -28,14 +29,19 @@ type FormInputs = {
 
 interface Props {
     countries: Country[];
+    userStoredAddress?: Partial<Address>;
 }
 
 
-export const AddressForm = ({ countries }: Props) => {
+export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
+
+    const router = useRouter ()
 
     const { handleSubmit, register, formState: { isValid }, reset } = useForm<FormInputs>({
         defaultValues: {
             //Todo: leer de la base de datos
+            ...(userStoredAddress as any),
+            rememberAddress: false,
         }
     });
 
@@ -53,17 +59,19 @@ export const AddressForm = ({ countries }: Props) => {
         }
     }, [])
 
-    const onSubmit = (data: FormInputs) => {
+    const onSubmit = async (data: FormInputs) => {
         console.log({ data })
         setAddress(data);
 
         const {rememberAddress, ...restAddress} = data;
 
         if( rememberAddress ){
-            setUserAddress( restAddress, session!.user.id )
+            await setUserAddress( restAddress, session!.user.id )
         }else{
-
+            await deleteUserAddress( session!.user.id )
         }
+
+        router.push('/checkout');
     }
 
     // Regiones y demas

@@ -13,3 +13,5 @@ export {getCountries} from './country/get-countries'
 
 
 export {setUserAddress} from './address/set-user-address'
+export {deleteUserAddress} from './address/delete-user-address'
+export {getUserAddress} from './address/get-user-address'

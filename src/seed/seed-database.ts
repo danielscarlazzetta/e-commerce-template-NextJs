@@ -13,6 +13,7 @@ async function main() {
     //     prisma.category.deleteMany(),
     // ])
 
+    await prisma.userAddress.deleteMany();
     await prisma.user.deleteMany();
     await prisma.country.deleteMany();
 
