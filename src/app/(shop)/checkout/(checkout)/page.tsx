@@ -1,5 +1,4 @@
 import { Title } from "@/components";
-import Image from "next/image";
 import Link from "next/link";
 import { ProductInCart } from "./ui/ProductInCart";
 import { PlaceOrder } from "./ui/PlaceOrder";

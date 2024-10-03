@@ -1,7 +1,8 @@
 'use client'
 
 import { useAddressStore, useCartStore } from "@/store";
-import { currencyFormat } from "@/utils";
+import { currencyFormat} from "@/utils";
+import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 
@@ -9,6 +10,7 @@ export const PlaceOrder = () => {
 
 
     const [loaded, setLoaded] = useState(false);
+    const [isPlacingOrder, setIsPlacingOrder] = useState(false);
     const address = useAddressStore((state) => state.address);
 
     const { itemsInCart, subsTotal, tax, total } = useCartStore((state) =>
@@ -16,10 +18,29 @@ export const PlaceOrder = () => {
     );
 
 
+    const cart = useCartStore(state => state.cart);
 
     useEffect(() => {
         setLoaded(true);
     }, []);
+
+    const onPlaceOrder = async () => {
+        setIsPlacingOrder(true);
+
+        console.log({address})
+
+        // Recordar que esto se extrae de cart, de los datos que ya se tienen almacenados
+        const productsToOrder = cart.map( product => ({
+            productId: product.id,
+            quantity: product.quantity,
+            size: product.size,
+        }))
+        
+        console.log({address, productsToOrder});
+
+        
+        setIsPlacingOrder(false);
+    }
 
 
     if (!setLoaded) {
@@ -51,27 +72,31 @@ export const PlaceOrder = () => {
             <h2 className="text-2xl mb-2">Resumen compra</h2>
 
             <div className="grid grid-cols-2">
-                <span>No. Productos</span>
-                <span className="text-right">
-                    {itemsInCart === 1 ? "1 artículo" : `${itemsInCart} artículos`}
-                </span>
+                <span>No Producto</span>
+                <span className="text-right">{itemsInCart === 1 ? '1 Articulo ' : `${itemsInCart} Articulos`}</span>
 
-                <span>Subtotal</span>
-                <span className="text-right">{currencyFormat(subsTotal)}</span>
+                <span>Sub Total</span>
+                <span className="text-right"> {currencyFormat(subsTotal)}</span>
 
-                <span>Impuestos (19%)</span>
+                <span>+IVA</span>
                 <span className="text-right">{currencyFormat(tax)}</span>
 
-                <span className="mt-5 text-2xl">Total:</span>
-                <span className="mt-5 text-2xl text-right">
-                    {currencyFormat(total)}
-                </span>
+                <span className="mt-5 text-2xl">Total</span>
+                <span className="mt-5 text-2xl text-right">{currencyFormat(total)}</span>
             </div>
 
             <div className="mt-4 w-full">
+
+                <p className="text-red-600">Error de creacion</p>
                 <button
                     // href='/orders/123'
-                    className="flex justify-center rounded bg-pink-400 hover:bg-pink-500  transition-all text-white text-lg w-full p-2"
+                    onClick={onPlaceOrder}
+                    className={
+                        clsx({
+                            'flex justify-center rounded bg-pink-400 hover:bg-pink-500  transition-all text-white text-lg w-full p-2': !isPlacingOrder,
+                            'btn-disabled': isPlacingOrder
+                        })
+                    }
                 >
                     Colocar orden
                 </button>
