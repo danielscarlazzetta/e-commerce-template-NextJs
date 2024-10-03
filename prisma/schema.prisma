@@ -27,6 +27,8 @@ model Product {
   category     Category       @relation(fields: [categoryId], references: [id])
   ProductImage ProductImage[]
 
+  OrderItem OrderItem[]
+
   @@index([gender])
 }
 
@@ -46,7 +48,10 @@ model User {
   role          Role      @default(user)
   image         String?
 
-  address       UserAddress?
+  address UserAddress?
+
+  // Relaciones, esto solo crea la relacion de 1 * pero no genera un nuevo campo
+  Order Order[]
 }
 
 enum Size {
@@ -73,28 +78,84 @@ enum Role {
 }
 
 model Country {
-  id   String @id
-  name String
-  UserAddress UserAddress[] 
+  id           String         @id
+  name         String
+  UserAddress  UserAddress[]
+  OrderAddress OrderAddress[]
 }
 
 model UserAddress {
-  id String @id @default(uuid())
-  firstName String
-  lastName String
-  address String
-  address2 String?
+  id         String  @id @default(uuid())
+  firstName  String
+  lastName   String
+  address    String
+  address2   String?
   postalCode String?
-  city String
+  city       String
   // country String
-  phone String
-  region String?
-  comuna String?
+  phone      String
+  region     String?
+  comuna     String?
 
   // relaciones
-  country Country @relation(fields: [countryId], references: [id])
+  country   Country @relation(fields: [countryId], references: [id])
   countryId String
 
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String @unique
+}
+
+// orden de compras
+
+model Order {
+  id           String    @id @default(uuid())
+  subTotal     Float
+  tax          Float
+  total        Float
+  itemsInOrder Int
+  isPaid       Boolean   @default(false)
+  paidAt       DateTime?
+
+  //creacion y edicion de la orden
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  OrderItem    OrderItem[]
+  OrderAddress OrderAddress?
+}
+
+model OrderItem {
+  id       String @id @default(uuid())
+  quantity Int
+  price    Float
+  size     Size
+  // Relaciones
+  order    Order  @relation(fields: [orderId], references: [id])
+  orderId  String
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model OrderAddress {
+  id         String  @id @default(uuid())
+  firstName  String
+  lastName   String
+  address    String
+  address2   String?
+  postalCode String
+  city       String
+  phone      String
+  region     String?
+  comuna     String?
+  
+  // Relaciones
+  country    Country @relation(fields: [countryId], references: [id])
+  countryId  String
+  Order      Order   @relation(fields: [orderId], references: [id])
+  orderId    String  @unique
 }
