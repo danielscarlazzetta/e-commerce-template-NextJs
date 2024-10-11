@@ -46,9 +46,9 @@ export const PlaceOrder = () => {
     }
 
 
-    if (!setLoaded) {
-        return 'Caregando....'
-    }
+    if (!loaded) {
+        return <p>Cargando...</p>;
+      }
 
 
     return (
