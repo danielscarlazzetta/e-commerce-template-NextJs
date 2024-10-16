@@ -2,8 +2,9 @@
 
 import { placeOrder } from "@/actions";
 import { useAddressStore, useCartStore } from "@/store";
-import { currencyFormat} from "@/utils";
+import { currencyFormat } from "@/utils";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
@@ -11,7 +12,11 @@ export const PlaceOrder = () => {
 
 
     const [loaded, setLoaded] = useState(false);
+    const [errorMessage, seterrorMessage] = useState('');
     const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+
+    const router = useRouter();
+
     const address = useAddressStore((state) => state.address);
 
     const { itemsInCart, subsTotal, tax, total } = useCartStore((state) =>
@@ -20,6 +25,7 @@ export const PlaceOrder = () => {
 
 
     const cart = useCartStore(state => state.cart);
+    const clearCart = useCartStore(state => state.clearCart);
 
     useEffect(() => {
         setLoaded(true);
@@ -28,27 +34,34 @@ export const PlaceOrder = () => {
     const onPlaceOrder = async () => {
         setIsPlacingOrder(true);
 
-        console.log({address})
+        // console.log({address})
 
         // Recordar que esto se extrae de cart, de los datos que ya se tienen almacenados
-        const productsToOrder = cart.map( product => ({
+        const productsToOrder = cart.map(product => ({
             productId: product.id,
             quantity: product.quantity,
             size: product.size,
         }))
-        
-        console.log({address, productsToOrder});
-        
-        const respuesta = await placeOrder( productsToOrder, address)
-        console.log({respuesta});
-        
-        setIsPlacingOrder(false);
+
+        // console.log({address, productsToOrder});
+
+        const resp = await placeOrder(productsToOrder, address)
+        if (!resp.ok) {
+            setIsPlacingOrder(false);
+            seterrorMessage(resp.message)
+            return;
+        }
+
+        //Si todo sale bien
+        clearCart();
+        router.replace('/orders/' + resp.order!.id);
+
     }
 
 
     if (!loaded) {
         return <p>Cargando...</p>;
-      }
+    }
 
 
     return (
@@ -90,7 +103,7 @@ export const PlaceOrder = () => {
 
             <div className="mt-4 w-full">
 
-                <p className="text-red-600">Error de creacion</p>
+                <p className="text-red-600">{errorMessage}</p>
                 <button
                     // href='/orders/123'
                     onClick={onPlaceOrder}

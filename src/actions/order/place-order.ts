@@ -62,6 +62,8 @@ export const placeOrder = async (productIds: ProductToOrder[], address: Address)
     // tomar los totales
     //tax, subtotal, total
 
+
+
     try {
         const prismaTx = await prisma.$transaction(async (tx) => {
             // 1. actualizar el stock de los productos
@@ -100,6 +102,8 @@ export const placeOrder = async (productIds: ProductToOrder[], address: Address)
 
 
             // 2. Crear la orden(encabezado-detalle)
+
+
             const order = await tx.order.create({
                 data: {
                     userId: userID,
@@ -110,31 +114,54 @@ export const placeOrder = async (productIds: ProductToOrder[], address: Address)
 
                     OrderItem: {
                         createMany: {
-                            data: productIds.map(p => ({
-                                quantity: p.quantity,
-                                size: p.size,
-                                productId: p.productId,
-                                price: products.find((product) => product.id === p.productId)?.price ?? 0,
-                            }))
-                        }
-                    }
+                            data:
+                                productIds.map((p) => ({
+                                    quantity: p.quantity,
+                                    size: p.size,
+                                    productId: p.productId,
+                                    price:
+                                        products.find((product) => product.id === p.productId)
+                                            ?.price ?? 0,
+                                })),
+                        },
+                    },
+                },
+            });
 
-                }
-            })
+
+
             // validar si el precio es 0 lanzar exepcion
 
             // 3. Dirrecion de orden
 
             const { country, ...restAddress } = address;
+            // const orderAddress = await tx.orderAddress.create({
+            //     data: {
+            //         ...restAddress,
+            //         countryId: country,
+            //         orderId: order.id,
+            //     },
+            // });
             const orderAddress = await tx.orderAddress.create({
                 data: {
-                    ...restAddress,
+                    firstName: restAddress.firstName,
+                    lastName: restAddress.lastName,
+                    address: restAddress.address,
+                    address2: restAddress.address2,
+                    postalCode: restAddress.postalCode,
+                    city: restAddress.city,
+                    phone: restAddress.phone,
+                    region: restAddress.region,
+                    comuna: restAddress.comuna,
+
                     countryId: country,
                     orderId: order.id,
-
-                    // orderId: (await order).id,
                 },
             });
+
+
+
+
 
             console.log({ order })
             console.log(order)
@@ -154,9 +181,10 @@ export const placeOrder = async (productIds: ProductToOrder[], address: Address)
 
 
     } catch (error: any) {
+        console.log(error)
         return {
             ok: false,
-            massage: error.massage,
+            message: error.message,
         }
     }
 

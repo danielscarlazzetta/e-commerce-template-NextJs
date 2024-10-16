@@ -26,8 +26,7 @@ model Product {
   categoryId   String
   category     Category       @relation(fields: [categoryId], references: [id])
   ProductImage ProductImage[]
-
-  OrderItem OrderItem[]
+  OrderItem    OrderItem[]
 
   @@index([gender])
 }
@@ -78,7 +77,7 @@ enum Role {
 }
 
 model Country {
-  id           String         @id
+  id   String @id
   name         String
   UserAddress  UserAddress[]
   OrderAddress OrderAddress[]
@@ -116,7 +115,6 @@ model Order {
   isPaid       Boolean   @default(false)
   paidAt       DateTime?
 
-  //creacion y edicion de la orden
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -152,10 +150,11 @@ model OrderAddress {
   phone      String
   region     String?
   comuna     String?
-  
+
   // Relaciones
-  country    Country @relation(fields: [countryId], references: [id])
-  countryId  String
-  Order      Order   @relation(fields: [orderId], references: [id])
-  orderId    String  @unique
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String
+
+  Order   Order  @relation(fields: [orderId], references: [id])
+  orderId String @unique
 }
