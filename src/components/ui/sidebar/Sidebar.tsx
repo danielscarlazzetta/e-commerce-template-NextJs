@@ -15,7 +15,8 @@ import {
   IoPersonOutline,
   IoSearchOutline,
   IoShirtOutline,
-  IoTicketOutline } from "react-icons/io5";
+  IoTicketOutline
+} from "react-icons/io5";
 import { MdOutlineSell } from "react-icons/md";
 import { useRouter } from "next/router";
 
@@ -33,9 +34,9 @@ export const Sidebar = () => {
   }
   // const router = useRouter();
   const handleLogout = async () => {
-    await logout(); 
-    closeMenu(); 
-    window.location.replace('/'); 
+    await logout();
+    closeMenu();
+    window.location.replace('/');
     // router.push('/'); 
   };
 
@@ -102,12 +103,13 @@ export const Sidebar = () => {
                 <span className="ml-3 text-xl">Perfil</span>
               </Link>
 
-              <Link href="/"
+              <Link href="/orders"
+                onClick={() => closeMenu()}
                 className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
                 <IoTicketOutline size={30} />
                 <span className="ml-3 text-xl">Ordenes</span>
               </Link>
-          
+
             </>
           )
         }
@@ -117,10 +119,6 @@ export const Sidebar = () => {
         {
           isAuthenticated && (
             <button
-              // onClick={() => {
-              //   logout();
-              //   closeMenu();
-              // }}
               onClick={handleLogout}
               className="flex items-center w-full mt-10 p-2 hover:bg-gray-100 rounded transition-all">
               <IoLogOutOutline size={30} />
