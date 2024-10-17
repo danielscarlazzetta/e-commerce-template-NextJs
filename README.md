@@ -129,7 +129,9 @@ https://pris.ly/d/getting-started
 ## fin prisma
 
 
+## Intslacion opara comprar por paypayl
 
+```npm i @paypal/react-paypal-js```
 
 
 

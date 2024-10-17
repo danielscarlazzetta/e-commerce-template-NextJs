@@ -22,5 +22,8 @@ export * from './product/slidePage/SlideMobilPage'
 export * from './product/stock-label/StockLabel'
 
 
-export * from './provider/Provider'
+export * from './providers/Providers'
+
+
+export * from './paypal/PayPalButton'
 

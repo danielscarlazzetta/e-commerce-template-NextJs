@@ -124,6 +124,12 @@ model Order {
 
   OrderItem    OrderItem[]
   OrderAddress OrderAddress?
+
+  //Identificador obligatorio por tiendas, es decir terceros de pago, redcompra,klap, paypal etc
+  transactionId String?
+
+  //Implementacion para revisar si el despacho esta echo o no
+  despacho Boolean? @default(false)
 }
 
 model OrderItem {
