@@ -17,7 +17,8 @@ export const Providers = ({ children }: Props) => {
 // esto lo debo eliminar cuando ya no use el provider de paypal
     <PayPalScriptProvider options={{ 
       clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? '', 
-      intent: 'capture',
+      intent: 'CAPTURE',
+      // intent: 'capture',
       currency: 'USD',
       //Cambiarlo a CLP si ya dejo de usar Paypal
       // currency: 'USD',

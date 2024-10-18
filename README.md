@@ -131,8 +131,11 @@ https://pris.ly/d/getting-started
 
 ## Intslacion opara comprar por paypayl
 
-```npm i @paypal/react-paypal-js```
+``` npm i @paypal/react-paypal-js ```
+``` npm i @paypal/paypal-js ```
+npm uninstall @paypal/react-paypal-js
 
+npm i @paypal/react-paypal-js@8.1.3
 
 
 
