@@ -27,3 +27,4 @@ export * from './providers/Providers'
 
 export * from './paypal/PayPalButton'
 
+export {OrderStatus} from './order/OrderStatus'
