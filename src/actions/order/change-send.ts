@@ -9,7 +9,7 @@ export const changeOrderSend = async( orderId: string, despacho: boolean ) => {
 
   const session = await auth();
 
-  if (!session?.user) {
+  if (session?.user.role !== 'admin') {
     return {
         ok: false,
         message: 'Debe de estar autenticado'
