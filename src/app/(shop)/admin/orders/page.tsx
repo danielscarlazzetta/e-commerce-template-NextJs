@@ -1,12 +1,18 @@
 export const revalidate = 0;
 
-import { getPaginatedOrders } from '@/actions';
+import { changeOrderSend, getPaginatedOrders } from '@/actions';
 import { Title } from '@/components';
-import prisma from '@/lib/prisma';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { IoCardOutline } from 'react-icons/io5';
+import { OrderSwitch } from './ui/OrderSwitch';
+
+// interface Props {
+//     orderId: string,
+//     despacho: boolean
+// }
+
 
 export default async function OrdersPage() {
 
@@ -96,8 +102,8 @@ export default async function OrdersPage() {
 
                                 <td className="text-sm text-gray-900 font-light px-6 ">
                                     
-                                    
-                                    {/* <SwitchComponent initialChecked={order.despacho ?? false} orderId={order.id} /> */}
+                                    <OrderSwitch initialChecked={order.despacho ?? false} orderId={order.id} />
+                                    {/* <OrderSwitch initialChecked={order.despacho} orderId={order.id} /> */}
                                 </td>
 
 

@@ -21,6 +21,7 @@ export {placeOrder} from './order/place-order'
 export {getOrderById} from './order/get-order-by-id'
 export {getOrderByUser} from './order/get-order-by-user'
 export {getPaginatedOrders} from './order/get-paginated-orders'
+export {changeOrderSend} from './order/change-send'
 
 export {getPaginatedUsers} from './user/get-pagination-users'
 export {changeUserRole} from './user/change-user-rol'
