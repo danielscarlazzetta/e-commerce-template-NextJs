@@ -28,6 +28,7 @@ export const getPaginatedOrders = async () => {
                     address: true,
                     comuna: true,
                     region: true,
+
                 }
             }
         },

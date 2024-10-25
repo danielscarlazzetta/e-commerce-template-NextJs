@@ -22,4 +22,6 @@ export {getOrderById} from './order/get-order-by-id'
 export {getOrderByUser} from './order/get-order-by-user'
 export {getPaginatedOrders} from './order/get-paginated-orders'
 
+export {getPaginatedUsers} from './user/get-pagination-users'
+
 export {setTransactionId} from './payments/set-transaction-id'
