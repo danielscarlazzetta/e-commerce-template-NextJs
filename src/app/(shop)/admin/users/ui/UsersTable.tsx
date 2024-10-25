@@ -1,5 +1,6 @@
 'use client'
 
+import { changeUserRole } from "@/actions";
 import type { User } from "@/interface";
 
 interface Props {
@@ -27,33 +28,28 @@ export const UsersTable = ({ users }: Props) => {
                     </thead>
                     <tbody>
 
-                        {users.map((users) => (
+                        {users.map((user) => (
                             <tr
-                                key={users.id}
+                                key={user.id}
                                 className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
 
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {users.email}
+                                    {user.email}
                                 </td>
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {users.name}
+                                    {user.name}
                                 </td>
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                     <select
-                                        value={ users.role }
-                                        onChange={e => console.log( e.target.value)}
+                                        value={ user.role }
+                                        onChange={ e =>  changeUserRole( user.id, e.target.value) }
                                         className="text-sm text-pink-500 w-full p-2 bg-transparent font-medium"
                                     >
-                                        <option value="admin">Administrador</option>
-                                        <option value="user">Usuario</option>
-                                        <option value="seller">Vendedor</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="user">User</option>
 
                                     </select>
                                 </td>
-
-
-
-
 
                             </tr>
 

@@ -44,7 +44,6 @@ export const Sidebar = () => {
 
   const isAdmin = session?.user.role === 'admin';
   // const isUser = session?.user.role === 'user';
-  // const isSeller = session?.user.role === 'seller';
 
 
 
@@ -181,20 +180,6 @@ export const Sidebar = () => {
             </>
           )
         }
-
-        {/* {
-          (isSeller && !isAdmin && !isUser) && (
-            <>
-              <div className="w-full mt-10 h-2 bg-gray-200 rounded-lg" />
-              <Link href="/"
-                className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all">
-                <MdOutlineSell size={30} />
-                <span className="ml-3 text-xl">Vender</span>
-              </Link>
-            </>
-          )
-        } */}
-
 
       </nav>
     </div>

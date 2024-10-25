@@ -1,7 +1,7 @@
 export const revalidate = 0;
 
 import { getPaginatedUsers } from '@/actions';
-import { Title } from '@/components';
+import { Pagination, Title } from '@/components';
 
 import { redirect } from 'next/navigation';
 import { UsersTable } from './ui/UsersTable';
@@ -17,8 +17,11 @@ export default async function OrdersPage() {
 
     return (
         <>
-            <Title title="Mantenedor de usuarios" />            
-                <UsersTable users={ users } />
+            <Title title="Mantenedor de usuarios" />
+            <div className='mb-10'>
+                <UsersTable users={users} />
+                <Pagination totalPages={1} />
+            </div>
         </>
     );
 }

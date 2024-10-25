@@ -72,7 +72,7 @@ enum Gender {
 
 enum Role {
   admin
-  seller
+  // seller
   user
 }
 
