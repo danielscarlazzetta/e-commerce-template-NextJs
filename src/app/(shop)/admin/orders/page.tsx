@@ -1,7 +1,7 @@
 export const revalidate = 0;
 
-import { changeOrderSend, getPaginatedOrders } from '@/actions';
-import { Title } from '@/components';
+import { changeOrderSend, getPaginatedOrders, getPaginationProductsWithImages } from '@/actions';
+import { Pagination, Title } from '@/components';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -13,10 +13,19 @@ import { OrderSwitch } from './ui/OrderSwitch';
 //     despacho: boolean
 // }
 
+interface Props {
+    searchParams: {
+        page?: string;
+    }
+}
 
-export default async function OrdersPage() {
+export default async function OrdersPage({ searchParams }: Props) {
 
     const { ok, orders = [] } = await getPaginatedOrders();
+
+    //Pagination
+    const page = await (searchParams.page ? parseInt(searchParams.page) : 1);
+    const { totalPages } = await getPaginationProductsWithImages({ page });
 
     if (!ok) {
         redirect('/auth/login')
@@ -114,6 +123,7 @@ export default async function OrdersPage() {
 
                     </tbody>
                 </table>
+                <Pagination totalPages={totalPages} />
             </div>
 
         </>
