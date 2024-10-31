@@ -1,10 +1,12 @@
 "use client";
 
-import { CategoryProduct, Product } from "@/interface";
+import { CategoryProduct, Product, ProductImage } from "@/interface";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface Props {
-    product: Product;
+    product: Product & { ProductImage?: ProductImage[] };
     categories: CategoryProduct[]
 }
 
@@ -40,12 +42,13 @@ export const ProductForm = ({ product, categories }: Props) => {
             sizes: product.sizes ?? [],
 
             images: undefined,
+
         }
     });
 
 
-    const onSubmit = async( data: FormInputs) => {
-        console.log({data})
+    const onSubmit = async (data: FormInputs) => {
+        console.log({ data })
     }
 
 
@@ -152,6 +155,29 @@ export const ProductForm = ({ product, categories }: Props) => {
 
                     </div>
 
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {
+                            product.ProductImage?.map(image => (
+                                <div key={image.id}>
+                                    <Image
+                                        alt={product.title ?? ''}
+                                        src={`/products/${image.url}`}
+                                        width={200}
+                                        height={300}
+                                        className="rounded-t-3xl shadow-md"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={ () => console.log( image.id, image.url) }
+                                        className="btn-danger mb-2 w-full rounded-b-3xl flex items-center justify-center">
+                                        Eliminar
+                                        <RiDeleteBin6Line className="ml-2" />
+                                    </button>
+                                </div>
+                            ))
+                        }
+                    </div>
+
                     <div className="flex flex-col mb-2">
 
                         <span className="font-bold text-pink-900 mt-4">Fotos</span>
@@ -173,6 +199,29 @@ export const ProductForm = ({ product, categories }: Props) => {
                             </div>
                         </div>
 
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {
+                            product.ProductImage?.map(image => (
+                                <div key={image.id}>
+                                    <Image
+                                        alt={product.title ?? ''}
+                                        src={`/products/${image.url}`}
+                                        width={200}
+                                        height={300}
+                                        className="rounded-t-3xl shadow-md"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={ () => console.log( image.id, image.url) }
+                                        className="btn-danger mb-2 w-full rounded-b-3xl flex items-center justify-center">
+                                        Eliminar
+                                        <RiDeleteBin6Line className="ml-2" />
+                                    </button>
+                                </div>
+                            ))
+                        }
                     </div>
 
 
