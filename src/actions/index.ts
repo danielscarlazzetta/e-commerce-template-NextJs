@@ -27,3 +27,5 @@ export {getPaginatedUsers} from './user/get-pagination-users'
 export {changeUserRole} from './user/change-user-rol'
 
 export {setTransactionId} from './payments/set-transaction-id'
+
+export {getCategories} from './categories/get-categories'
