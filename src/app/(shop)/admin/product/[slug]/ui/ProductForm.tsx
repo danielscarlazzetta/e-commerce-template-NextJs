@@ -1,6 +1,7 @@
 "use client";
 
 import { CategoryProduct, Product, ProductImage } from "@/interface";
+import clsx from "clsx";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -34,6 +35,9 @@ export const ProductForm = ({ product, categories }: Props) => {
         handleSubmit,
         register,
         formState: { isValid },
+        getValues,
+        setValue,
+        watch,
 
     } = useForm<FormInputs>({
         defaultValues: {
@@ -46,6 +50,14 @@ export const ProductForm = ({ product, categories }: Props) => {
         }
     });
 
+    watch('sizes');
+
+
+    const onSizeChanged = (size: string) => {
+        const sizes = new Set( getValues('sizes') );
+        sizes.has(size) ? sizes.delete(size) : sizes.add(size);
+        setValue('sizes', Array.from(sizes))
+    }
 
     const onSubmit = async (data: FormInputs) => {
         console.log({ data })
@@ -134,7 +146,17 @@ export const ProductForm = ({ product, categories }: Props) => {
                         {
                             sizes.map(size => (
                                 // bg-blue-500 text-white <--- si está seleccionado
-                                <div key={size} className="flex  items-center justify-center w-10 h-10 mr-2 border rounded-md">
+                                <div 
+                                key={size}
+                                onClick={() => onSizeChanged(size)}
+                                className={
+                                    clsx(
+                                        'flex items-center cursor-pointer justify-center w-10 h-10 mr-2 border rounded-md transition-all',
+                                        {
+                                            'bg-pink-500 text-white': getValues('sizes').includes(size)
+                                        }
+                                    )
+                                }>
                                     <span>{size}</span>
                                 </div>
                             ))
