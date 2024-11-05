@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface Props {
-    product: Product & { ProductImage?: ProductImage[] };
+    product: Partial<Product> & { ProductImage?: ProductImage[] };
     categories: CategoryProduct[]
 }
 
@@ -26,7 +26,7 @@ interface FormInputs {
     gender: "men" | "women" | "kid" | "unisex";
     categoryId: string;
 
-    images?: FileList;
+    // images?: FileList;
 }
 
 
@@ -46,7 +46,7 @@ export const ProductForm = ({ product, categories }: Props) => {
             tags: product.tags?.join(", "),
             sizes: product.sizes ?? [],
 
-            images: undefined,
+            // images: undefined,
 
         }
     });
@@ -55,7 +55,7 @@ export const ProductForm = ({ product, categories }: Props) => {
 
 
     const onSizeChanged = (size: string) => {
-        const sizes = new Set( getValues('sizes') );
+        const sizes = new Set(getValues('sizes'));
         sizes.has(size) ? sizes.delete(size) : sizes.add(size);
         setValue('sizes', Array.from(sizes))
     }
@@ -64,9 +64,11 @@ export const ProductForm = ({ product, categories }: Props) => {
         // console.log({ data })
         const formData = new FormData();
 
-        const {...productToSave} = data;
-        
-        formData.append('id', product.id ?? '');
+        const { ...productToSave } = data;
+
+        if( product.id){
+            formData.append('id', product.id ?? '');
+        }
         formData.append('title', productToSave.title);
         formData.append('slug', productToSave.slug);
         formData.append('description', productToSave.description);
@@ -78,8 +80,8 @@ export const ProductForm = ({ product, categories }: Props) => {
         formData.append('gender', productToSave.gender);
 
 
-        const {ok} = await createUpdateProduct(formData);
-        console.log({ok})
+        const { ok } = await createUpdateProduct(formData);
+        console.log({ ok })
 
     }
 
@@ -157,6 +159,12 @@ export const ProductForm = ({ product, categories }: Props) => {
 
             {/* Selector de tallas y fotos */}
             <div className="w-full">
+                <div className="flex flex-col mb-2">
+                    <span className="font-bold text-pink-900 mt-4">Inventario/Stock</span>
+                    <input type="number" className="p-2 border rounded-md bg-gray-300"
+                        {...register('inStock', { required: true, min: 0 })}
+                    />
+                </div>
                 {/* As checkboxes */}
                 <div className="flex flex-col">
 
@@ -166,17 +174,17 @@ export const ProductForm = ({ product, categories }: Props) => {
                         {
                             sizes.map(size => (
                                 // bg-blue-500 text-white <--- si está seleccionado
-                                <div 
-                                key={size}
-                                onClick={() => onSizeChanged(size)}
-                                className={
-                                    clsx(
-                                        'flex items-center cursor-pointer justify-center w-10 h-10 mr-2 border rounded-md transition-all',
-                                        {
-                                            'bg-pink-500 text-white': getValues('sizes').includes(size)
-                                        }
-                                    )
-                                }>
+                                <div
+                                    key={size}
+                                    onClick={() => onSizeChanged(size)}
+                                    className={
+                                        clsx(
+                                            'flex items-center cursor-pointer justify-center w-10 h-10 mr-2 border rounded-md transition-all',
+                                            {
+                                                'bg-pink-500 text-white': getValues('sizes').includes(size)
+                                            }
+                                        )
+                                    }>
                                     <span>{size}</span>
                                 </div>
                             ))
@@ -210,7 +218,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                                     />
                                     <button
                                         type="button"
-                                        onClick={ () => console.log( image.id, image.url) }
+                                        onClick={() => console.log(image.id, image.url)}
                                         className="btn-danger mb-2 w-full rounded-b-3xl flex items-center justify-center">
                                         Eliminar
                                         <RiDeleteBin6Line className="ml-2" />
@@ -256,7 +264,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                                     />
                                     <button
                                         type="button"
-                                        onClick={ () => console.log( image.id, image.url) }
+                                        onClick={() => console.log(image.id, image.url)}
                                         className="btn-danger mb-2 w-full rounded-b-3xl flex items-center justify-center">
                                         Eliminar
                                         <RiDeleteBin6Line className="ml-2" />
