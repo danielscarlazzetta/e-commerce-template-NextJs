@@ -1,7 +1,7 @@
 'use server'
 
-import { Gender } from '@prisma/client';
-import { title } from 'process';
+import prisma from '@/lib/prisma';
+import { Gender, Product, Size } from '@prisma/client';
 import { z } from 'zod';
 
 const productSchema = z.object({
@@ -10,15 +10,15 @@ const productSchema = z.object({
     slug: z.string().min(3).max(100),
     description: z.string(),
     price: z.coerce
-    .number()
-    .min(0)
-    .transform(val => Number(val.toFixed(0))),
+        .number()
+        .min(0)
+        .transform(val => Number(val.toFixed(0))),
     inStock: z.coerce
-    .number()
-    .min(0)
-    .transform(val => Number(val.toFixed(0))),
+        .number()
+        .min(0)
+        .transform(val => Number(val.toFixed(0))),
     categoryId: z.string().uuid(),
-    sizes: z.coerce.string().transform( val => val.split(', ')),
+    sizes: z.coerce.string().transform(val => val.split(',')),
     tags: z.string(),
     gender: z.nativeEnum(Gender),
 
@@ -26,15 +26,51 @@ const productSchema = z.object({
 
 export const createUpdateProduct = async (formData: FormData) => {
 
-    const data = Object.fromEntries( formData );
+    const data = Object.fromEntries(formData);
     const productParsed = productSchema.safeParse(data);
 
-    if( !productParsed.success){
+    if (!productParsed.success) {
         console.log(productParsed.error)
-        return {ok : false}
+        return { ok: false }
 
     }
-    console.log(productParsed.data)
+
+    const product = productParsed.data;
+    product.slug = product.slug.toLowerCase().replace(/ /g, '-').trim();
+
+    const { id, ...rest } = product;
+
+    const prismaTx = await prisma.$transaction(async (tx) => {
+
+        let product: Product;
+        const tagsArray = rest.tags.split(',').map(tag => tag.trim().toLowerCase());
+
+        if (id) {
+            //Actualizar
+            product = await prisma.product.update({
+                where: { id },
+                data: {
+                    ...rest,
+                    sizes: {
+                        set: rest.sizes as Size[],
+                    },
+                    tags: {
+                        set: tagsArray
+                    },
+                }
+            })
+
+            console.log({ updatedProduct: product })
+        } else {
+            //Crear
+        }
+
+
+
+        return {
+            // product
+        }
+    });
 
 
     return {
