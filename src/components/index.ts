@@ -11,13 +11,11 @@ export * from './products/product-grid/ProductGridItem'
 
 export * from './product/side-selector/SideSelector'
 export * from './product/quantity-selector/QuantitySelector'
-
 export * from './product/slideshow/ProductSlideShow'
 export * from './product/slideshow/ProductMobileSlideShow'
-
-
 export * from './product/slidePage/SlidePage'
 export * from './product/slidePage/SlideMobilPage'
+export * from './product/product-image/ProductImage'
 
 export * from './product/stock-label/StockLabel'
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { QuantitySelector } from "@/components"
+import { ProductImage, QuantitySelector } from "@/components"
 import { useCartStore } from "@/store"
 import Image from "next/image"
 import Link from "next/link"
@@ -22,7 +22,7 @@ export const ProductInCart = () => {
 
 
     if (!loaded) {
-        return '<p> cargando... <p/>'
+        return '<p> cargando... cacas <p/>'
     }
 
     return (
@@ -30,14 +30,14 @@ export const ProductInCart = () => {
             {
                 productInCart.map(p => (
                     <div key={`${p.slug}-${p.size}`} className="flex mt-5">
-                        <Image
-                            src={`/products/${p.image}`}
+                        <ProductImage
+                            src={p.image}
                             width={150}
                             height={100}
                             alt={p.title}
-                            className="mr-5 rounded">
+                            className="mr-5 rounded" />
 
-                        </Image>
+                        {/* </Image> */}
                         <div>
                             <Link className="cursor-pointer" href={`/product/${p.slug}`}>
                                 <p>{p.size} - {p.title}</p>
