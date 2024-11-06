@@ -2,6 +2,7 @@
 
 import prisma from '@/lib/prisma';
 import { Gender, Product, Size } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 const productSchema = z.object({
@@ -36,57 +37,76 @@ export const createUpdateProduct = async (formData: FormData) => {
     }
 
     const product = productParsed.data;
-    product.slug = product.slug.toLowerCase().replace(/ /g, '-').trim();
+    product.slug = product.slug.toLowerCase().replace(/ /g, '_').trim();
 
     const { id, ...rest } = product;
 
-    const prismaTx = await prisma.$transaction(async (tx) => {
 
-        let product: Product;
-        const tagsArray = rest.tags.split(',').map(tag => tag.trim().toLowerCase());
+    try {
+        const prismaTx = await prisma.$transaction(async (tx) => {
 
-        if (id) {
-            //Actualizar
-            product = await prisma.product.update({
-                where: { id },
-                data: {
-                    ...rest,
-                    sizes: {
-                        set: rest.sizes as Size[],
-                    },
-                    tags: {
-                        set: tagsArray
-                    },
-                }
-            })
+            let product: Product;
+            const tagsArray = rest.tags.split(',').map(tag => tag.trim().toLowerCase());
 
-            // console.log({ updatedProduct: product })
-        } else {
-            //Crear
-            product = await prisma.product.create({
-                data: {
-                    ...rest,
-                    sizes: {
-                        set: rest.sizes as Size[],
-                    },
-                    tags: {
-                        set: tagsArray
-                    },
-                }
-            })
-        }
+            if (id) {
+                //Actualizar
+                product = await prisma.product.update({
+                    where: { id },
+                    data: {
+                        ...rest,
+                        sizes: {
+                            set: rest.sizes as Size[],
+                        },
+                        tags: {
+                            set: tagsArray
+                        },
+                    }
+                })
+
+                // console.log({ updatedProduct: product })
+            } else {
+                //Crear
+                product = await prisma.product.create({
+                    data: {
+                        ...rest,
+                        sizes: {
+                            set: rest.sizes as Size[],
+                        },
+                        tags: {
+                            set: tagsArray
+                        },
+                    }
+                })
+            }
 
 
-        console.log({ product })
+            console.log({ product })
+
+            return {
+                product
+            }
+        });
+
+        // Revalidar el path
+        revalidatePath(`/admin/products`)
+        revalidatePath(`/admin/product/${product.slug}`)
+        revalidatePath(`/product/${product.slug}`)
+
 
         return {
-            product
+            ok: true,
+            product: prismaTx.product,
         }
-    });
 
 
-    return {
-        ok: true,
+    } catch (error) {
+
+        return{
+            ok: false,
+            message: 'No se pudo actualizar/crear'
+        }
+
     }
+
 
 }

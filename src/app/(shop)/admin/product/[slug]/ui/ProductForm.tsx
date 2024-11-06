@@ -4,6 +4,7 @@ import { createUpdateProduct } from "@/actions";
 import { CategoryProduct, Product, ProductImage } from "@/interface";
 import clsx from "clsx";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
@@ -31,6 +32,9 @@ interface FormInputs {
 
 
 export const ProductForm = ({ product, categories }: Props) => {
+
+
+    const router =  useRouter();
 
     const {
         handleSubmit,
@@ -80,8 +84,16 @@ export const ProductForm = ({ product, categories }: Props) => {
         formData.append('gender', productToSave.gender);
 
 
-        const { ok } = await createUpdateProduct(formData);
+        const { ok, product: UpdateProduct } = await createUpdateProduct(formData);
+        // const { ok } = await createUpdateProduct(formData);
         console.log({ ok })
+
+        if( !ok ){
+            alert('Producto no se pudo actualizar');
+            return
+        }
+
+        router.replace(`/admin/product/${UpdateProduct?.slug}`)
 
     }
 
