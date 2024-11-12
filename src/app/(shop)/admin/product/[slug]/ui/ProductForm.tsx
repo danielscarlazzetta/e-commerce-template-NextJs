@@ -27,7 +27,7 @@ interface FormInputs {
     gender: "men" | "women" | "kid" | "unisex";
     categoryId: string;
 
-    // images?: FileList;
+    images?: FileList;
 }
 
 
@@ -50,7 +50,7 @@ export const ProductForm = ({ product, categories }: Props) => {
             tags: product.tags?.join(", "),
             sizes: product.sizes ?? [],
 
-            // images: undefined,
+            images: undefined,
 
         }
     });
@@ -68,7 +68,7 @@ export const ProductForm = ({ product, categories }: Props) => {
         // console.log({ data })
         const formData = new FormData();
 
-        const { ...productToSave } = data;
+        const { images, ...productToSave } = data;
 
         if( product.id){
             formData.append('id', product.id ?? '');
@@ -83,6 +83,13 @@ export const ProductForm = ({ product, categories }: Props) => {
         formData.append('categoryId', productToSave.categoryId);
         formData.append('gender', productToSave.gender);
 
+        console.log(images)
+
+        if(images){
+            for(let i = 0 ; i < images.length; i++ ){
+                formData.append('images', images[i]);
+            }
+        }
 
         const { ok, product: UpdateProduct } = await createUpdateProduct(formData);
         // const { ok } = await createUpdateProduct(formData);
@@ -205,19 +212,19 @@ export const ProductForm = ({ product, categories }: Props) => {
                     </div>
 
 
-                    <div className="flex flex-col mb-2">
+                    {/* <div className="flex flex-col mb-2">
 
                         <span className="font-bold text-pink-900 mt-4">Fotos</span>
                         <input
                             type="file"
                             multiple
                             className="p-2 border rounded-md bg-gray-300"
-                            accept="image/png, image/jpeg"
+                            accept="image/png, image/jpeg, image/avif"
                         />
 
-                    </div>
+                    </div> */}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {
                             product.ProductImage?.map(image => (
                                 <div key={image.id}>
@@ -238,7 +245,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                                 </div>
                             ))
                         }
-                    </div>
+                    </div> */}
 
                     <div className="flex flex-col mb-2">
 
@@ -255,7 +262,11 @@ export const ProductForm = ({ product, categories }: Props) => {
                                         </div>
                                     </div>
 
-                                    <input type="file" className="h-full w-full opacity-0" multiple accept="image/png, image/jpeg" />
+                                    <input type="file"
+                                    {...register('images')}
+                                    className="h-full w-full opacity-0"
+                                    multiple
+                                    accept="image/png, image/jpeg, image/avif" />
 
                                 </div>
                             </div>

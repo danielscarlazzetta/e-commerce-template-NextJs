@@ -140,3 +140,8 @@ npm i @paypal/react-paypal-js@8.1.3
 
 
 ## npx prisma studio basicamente genera un visor de base de datos 
+
+
+## Para la carma de imagenes, de momento se utilizara Cloudinary
+Link de rerferencia : https://console.cloudinary.com/pm/c-8a675a24840cd22e10aad37632eff8/getting-started
+npm i cloudinary
