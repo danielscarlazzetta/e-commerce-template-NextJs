@@ -1,6 +1,6 @@
 "use client";
 
-import { createUpdateProduct } from "@/actions";
+import { createUpdateProduct, deleteProductImage } from "@/actions";
 import { ProductImage } from "@/components";
 import { CategoryProduct, Product, ProductImage as ProductWithImage } from "@/interface";
 import clsx from "clsx";
@@ -277,7 +277,7 @@ export const ProductForm = ({ product, categories }: Props) => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {
-                            product.ProductImage?.map(image => (
+                            product.ProductImage?.map((image) => (
                                 <div key={image.id}>
                                     <ProductImage
                                         alt={product.title ?? ''}
@@ -289,7 +289,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                                     />
                                     <button
                                         type="button"
-                                        onClick={() => console.log(image.id, image.url)}
+                                        onClick={() => deleteProductImage(Number(image.id), image.url)}
                                         className="btn-danger mb-2 w-full rounded-b-3xl flex items-center justify-center">
                                         Eliminar
                                         <RiDeleteBin6Line className="ml-2" />

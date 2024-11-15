@@ -5,6 +5,7 @@ export {getPaginationProductsWithImages} from './products/product-pagination'
 export {getProductBySlug} from './products/get-product-by-slug'
 export {getStockBySlug} from './products/get-stock-by-slug'
 export {createUpdateProduct} from './products/create-update-product'
+export {deleteProductImage} from './products/delete-product-image'
 
 export {authenticate,login} from './auth/login'
 export {logout} from './auth/logout'
