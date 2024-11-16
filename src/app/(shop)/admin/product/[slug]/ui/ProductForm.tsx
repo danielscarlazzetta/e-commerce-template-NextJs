@@ -4,13 +4,13 @@ import { createUpdateProduct, deleteProductImage } from "@/actions";
 import { ProductImage } from "@/components";
 import { CategoryProduct, Product, ProductImage as ProductWithImage } from "@/interface";
 import clsx from "clsx";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface Props {
-    product: Partial<Product> & { ProductImage?: ProductWithImage[] };
+    product: Partial<Product> & { ProductImage?: { id: number; url: string; }[] };
+    // product: Partial<Product> & { ProductImage?: ProductWithImage[] };
     categories: CategoryProduct[]
 }
 
@@ -212,41 +212,6 @@ export const ProductForm = ({ product, categories }: Props) => {
 
                     </div>
 
-
-                    {/* <div className="flex flex-col mb-2">
-
-                        <span className="font-bold text-pink-900 mt-4">Fotos</span>
-                        <input
-                            type="file"
-                            multiple
-                            className="p-2 border rounded-md bg-gray-300"
-                            accept="image/png, image/jpeg, image/avif"
-                        />
-
-                    </div> */}
-
-                    {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        {
-                            product.ProductImage?.map(image => (
-                                <div key={image.id}>
-                                    <Image
-                                        alt={product.title ?? ''}
-                                        src={`/products/${image.url}`}
-                                        width={200}
-                                        height={300}
-                                        className="rounded-t-3xl shadow-md"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => console.log(image.id, image.url)}
-                                        className="btn-danger mb-2 w-full rounded-b-3xl flex items-center justify-center">
-                                        Eliminar
-                                        <RiDeleteBin6Line className="ml-2" />
-                                    </button>
-                                </div>
-                            ))
-                        }
-                    </div> */}
 
                     <div className="flex flex-col mb-2">
 
